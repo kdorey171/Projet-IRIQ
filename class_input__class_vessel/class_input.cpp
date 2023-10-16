@@ -1,6 +1,8 @@
 #include "class_input.h"
-using namespace sf;
+#include <iostream>
 
+using namespace sf;
+using namespace std;
 
 Input::Input()
 {
@@ -45,9 +47,11 @@ void Input::InputHandler(Event event, RenderWindow& window)
         {
         case Mouse::Right:
             button.right = false;
+            cout << "click droit" << endl;
             break;
         case Mouse::Left:
             button.left = false;
+            cout << "click gauche" << endl;
             break;
         default :
             break;
