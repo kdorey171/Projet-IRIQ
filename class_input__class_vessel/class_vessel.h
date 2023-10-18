@@ -7,6 +7,9 @@ protected :
     int type;
     int lvl;
     int prix;
+    int x_position;
+    int y_position;
+    int player;
 
 public :
     //Affichage
@@ -25,6 +28,12 @@ public :
 
     void set_lvl(int new_level);
     int get_lvl();
+
+    int get_x_position();
+    int get_y_position();
+    void set_x_position(int);
+    void set_y_position(int);
+
 
     /*
     build(); // construire un bâtiment, clas bank allow?

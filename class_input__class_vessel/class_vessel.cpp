@@ -15,6 +15,7 @@ cerr << "Constructeur par défaut du Bâtiment (vessel)" << endl;
     type = 0;
     lvl = 1;
     prix = -1;
+
 }
 
 
@@ -63,4 +64,28 @@ void vessel::set_lvl(int new_lvl)
     lvl = new_lvl;
 }
 
+
+int vessel::get_x_position()
+{
+    return x_position;
+
+}
+
+
+int vessel::get_y_position()
+{
+    return y_position;
+}
+
+
+void vessel::set_x_position(int x)
+{
+    x_position = x;
+}
+
+
+void vessel::set_y_position(int y)
+{
+    y_position = y;
+}
 
