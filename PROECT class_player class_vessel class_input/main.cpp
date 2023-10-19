@@ -159,7 +159,7 @@ int main()
                     FloatRect rect_vessel = squares[squaresi].getGlobalBounds();
                     if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()));
                     {
-                        vessel_select == false; /// Probleme pas de décrochage...
+                        vessel_select = false; /// Probleme pas de décrochage...
                         cout << "bien placé !" << endl;
                     }
                 }
