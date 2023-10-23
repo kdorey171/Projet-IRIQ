@@ -13,7 +13,7 @@ protected :
 
 public :
     //Affichage
-    void afficher(void);
+    sf::RectangleShape afficher();
 
     //constructor
     vessel();

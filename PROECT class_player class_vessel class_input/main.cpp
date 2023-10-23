@@ -11,6 +11,7 @@
 #include "class_input.h"
 #include "player.h"
 #include "class_vessel.h"
+#include "class_unites.h"
 
 using namespace std;
 using namespace sf;
@@ -98,7 +99,7 @@ int main()
 
     bool vessel_select = false;
     int squaresi = -1;
-    int indice_bat = -1;
+    int indice_bat = 0;
 
 
 
@@ -123,12 +124,13 @@ int main()
                 {
                     if (vessel_select == false) {vessel_select=true;}
 
-                    sf::RectangleShape newSquare;
-                    newSquare.setSize(size_vessel);
-                    newSquare.setFillColor(sf::Color::Red);
-                    newSquare.setPosition(size_vessel);
-                    squares.push_back(newSquare);
-                    squaresi += 1;
+                    vessel bat_test;
+                    bat_test.set_size(size_vessel);
+                    bat_test.set_color(sf::Color::Red);
+                    bat_test.set_position(size_vessel);
+                    bat.push_back(bat_test);
+                    indice_bat += 1;
+
 
                 }
 
@@ -136,29 +138,29 @@ int main()
                 {
                     if (vessel_select == false) {vessel_select=true;}
 
-                    sf::RectangleShape newSquare;
-                    newSquare.setSize(size_vessel);
-                    newSquare.setFillColor(sf::Color::Blue);
-                    newSquare.setPosition(80, 20);
-                    squares.push_back(newSquare);
-                    squaresi += 1;
+                    vessel bat_test;
+                    bat_test.set_size(size_vessel);
+                    bat_test.set_color(sf::Color::Blue);
+                    bat_test.set_position(Vector2f(80.f, 20.f));
+                    bat.push_back(bat_test);
+                    indice_bat += 1;
                 }
 
                 else if (greenSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
                 {
                     if (vessel_select == false) {vessel_select=true;}
 
-                    sf::RectangleShape newSquare;
-                    newSquare.setSize(size_vessel);
-                    newSquare.setFillColor(sf::Color::Green);
-                    newSquare.setPosition(140, 20);
-                    squares.push_back(newSquare);
-                    squaresi += 1;
+                    vessel bat_test;
+                    bat_test.set_size(size_vessel);
+                    bat_test.set_color(sf::Color::Green);
+                    bat_test.set_position(Vector2f(140.f, 20.f));
+                    bat.push_back(bat_test);
+                    indice_bat += 1;
                 }
 
                 else if (vessel_select == true)
                 {
-                    FloatRect rect_vessel = squares[squaresi].getGlobalBounds();
+                    FloatRect rect_vessel = bat[indice_bat-1].afficher().getGlobalBounds();
                     if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
                         vessel_select = false;
@@ -222,9 +224,10 @@ int main()
 
         /// BACKGROUND
 
-        for (const sf::RectangleShape& square : squares)
+        for (vessel& bats : bat)
         {
-            window.draw(square);
+            window.draw(bats.afficher());
+            cout << indice_bat << endl;
         }
 
 
@@ -236,8 +239,8 @@ int main()
         if (vessel_select)
         {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-            squares[squaresi].setPosition(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y));
-            window.draw(squares[squaresi]);
+            bat[indice_bat-1].set_position(Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)));
+            window.draw(bat[indice_bat-1].afficher());
         }
 
 

@@ -28,9 +28,9 @@ cerr << "Destruction du Bâtiment (vessel)" << endl;
 
 // AFFICHEURS
 
-void vessel::afficher(void)
+RectangleShape vessel::afficher()
 {
-cout << "PV : " << PV << " lvl : " << lvl << " prix : " << prix << endl;
+return position_vessel;
 }
 
 // METHODS
