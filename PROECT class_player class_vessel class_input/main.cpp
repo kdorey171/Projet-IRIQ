@@ -25,7 +25,7 @@ int main()
     player player_2(2);
     Vector2f size_base = Vector2f(300.f,450.f);
     Vector2f size_ligne_fight = Vector2f(1000.f,5.f);
-    Vector2f size_vessel = Vector2f(30.f,30.f);
+    Vector2f size_vessel = Vector2f(25.f,25.f);
 
 
                     /// Initialisation MAP
@@ -64,6 +64,7 @@ int main()
 
     // Tableau des carrées
     std::vector<RectangleShape> squares;
+    std::vector<vessel> bat;
 
     // Tableau des carrées initiaux
     std::vector<RectangleShape> initsquares;
@@ -94,9 +95,10 @@ int main()
 
     Input input; // Initialisation Touches
 
+
     bool vessel_select = false;
     int squaresi = -1;
-
+    int indice_bat = -1;
 
 
 
@@ -124,7 +126,7 @@ int main()
                     sf::RectangleShape newSquare;
                     newSquare.setSize(size_vessel);
                     newSquare.setFillColor(sf::Color::Red);
-                    newSquare.setPosition(30, 30);
+                    newSquare.setPosition(size_vessel);
                     squares.push_back(newSquare);
                     squaresi += 1;
 
@@ -157,14 +159,42 @@ int main()
                 else if (vessel_select == true)
                 {
                     FloatRect rect_vessel = squares[squaresi].getGlobalBounds();
-                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()));
+                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
-                        vessel_select = false; /// Probleme pas de décrochage...
+                        vessel_select = false;
+                        #ifdef __DEBUG
                         cout << "bien placé !" << endl;
+                        #endif // __DEBUG
+                    }
+                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    {
+                        vessel_select = false;
+                        #ifdef __DEBUG
+                        cout << "bien placé !" << endl;
+                        #endif // __DEBUG
+                    }
+                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    {
+                        vessel_select = false;
+                        #ifdef __DEBUG
+                        cout << "bien placé !" << endl;
+                        #endif // __DEBUG
+                    }
+                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    {
+                        vessel_select = false;
+                        #ifdef __DEBUG
+                        cout << "bien placé !" << endl;
+                        #endif // __DEBUG
+                    }
+                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    {
+                        vessel_select = false;
+                        #ifdef __DEBUG
+                        cout << "bien placé !" << endl;
+                        #endif // __DEBUG
                     }
                 }
-
-
             }
 //-----------------------------------------------------------------------------------
             if (souris.left == false)
@@ -181,13 +211,14 @@ int main()
         window.draw(bloc_base_player);
         window.draw(bloc_base_AI);
 
-        /*
-        window.draw(bloc_ligne_fight_1);
-        window.draw(bloc_ligne_fight_2);
-        window.draw(bloc_ligne_fight_3);
-        window.draw(bloc_ligne_fight_4);
-        window.draw(bloc_ligne_fight_5);
-        */
+        if (vessel_select)
+        {
+            window.draw(bloc_ligne_fight_1);
+            window.draw(bloc_ligne_fight_2);
+            window.draw(bloc_ligne_fight_3);
+            window.draw(bloc_ligne_fight_4);
+            window.draw(bloc_ligne_fight_5);
+        }
 
         /// BACKGROUND
 

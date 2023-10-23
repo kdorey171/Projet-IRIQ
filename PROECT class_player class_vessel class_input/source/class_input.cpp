@@ -47,11 +47,15 @@ void Input::InputHandler(Event event, RenderWindow& window)
         {
         case Mouse::Right:
             button.right = false;
+            #ifdef __DEBUG
             cout << "click droit" << endl;
+            #endif // __DEBUG
             break;
         case Mouse::Left:
             button.left = false;
+            #ifdef __DEBUG
             cout << "click gauche" << endl;
+            #endif // __DEBUG
             break;
         default :
             break;

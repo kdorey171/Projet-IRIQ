@@ -13,11 +13,9 @@ vessel::vessel()
 cerr << "Constructeur par défaut du Bâtiment (vessel)" << endl;
 #endif // __DEBUG
     PV = 1000;
-    type = 0;
     lvl = 1;
     prix = 10;
-    x_position = 0;
-    y_position = 0;
+    position_vessel=RectangleShape(Vector2f(0.f,0.f));
 }
 
 
@@ -32,7 +30,7 @@ cerr << "Destruction du Bâtiment (vessel)" << endl;
 
 void vessel::afficher(void)
 {
-cout << "PV : " << PV << " type : " << type << " lvl : " << lvl << " prix : " << prix << endl;
+cout << "PV : " << PV << " lvl : " << lvl << " prix : " << prix << endl;
 }
 
 // METHODS
@@ -49,12 +47,6 @@ void vessel::set_PV(int pv)
 }
 
 
-int vessel::get_type(void)
-{
-    return type;
-}
-
-
 int vessel::get_lvl()
 {
     return lvl;
@@ -66,28 +58,25 @@ void vessel::set_lvl(int new_lvl)
     lvl = new_lvl;
 }
 
-int vessel::get_x_position()
+Vector2f vessel::get_position()
 {
-    return x_position;
-
+    return position_vessel.getPosition();
 }
 
 
-int vessel::get_y_position()
+void vessel::set_position(Vector2f newposition)
 {
-    return y_position;
+    position_vessel.setPosition(newposition);
 }
 
-
-void vessel::set_x_position(int x)
+void vessel::set_size(sf::Vector2f newsize)
 {
-    x_position = x;
+    position_vessel.setSize(newsize);
 }
 
-
-void vessel::set_y_position(int y)
+void vessel::set_color(sf::Color color)
 {
-    y_position = y;
+    position_vessel.setFillColor(color);
 }
 
 //-------------------------------------------------------------------------

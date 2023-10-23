@@ -7,11 +7,9 @@
 class vessel {
 protected :
     int PV;
-    int type;
     int lvl;
     int prix;
-    int x_position;
-    int y_position;
+    sf::RectangleShape position_vessel;
 
 public :
     //Affichage
@@ -26,15 +24,13 @@ public :
     void set_PV(int pv);
     int get_PV();
 
-    int get_type();
-
     void set_lvl(int new_level);
     int get_lvl();
 
-    int get_x_position();
-    int get_y_position();
-    void set_x_position(int);
-    void set_y_position(int);
+    sf::Vector2f get_position();
+    void set_position(sf::Vector2f);
+    void set_size(sf::Vector2f);
+    void set_color(sf::Color);
 
     bool allow_build(player);
 
