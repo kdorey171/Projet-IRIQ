@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <iostream>
 #include <random>
 #include <math.h>
+#include <cmath>
+#include <iostream>
 #include <vector>
 
 #include <SFML/Graphics.hpp>
@@ -9,9 +9,11 @@
 #include <SFML/System.hpp>
 
 #include "class_input.h"
-#include "player.h"
 #include "class_vessel.h"
-#include "class_unites.h"
+#include "class_vessel_ressource.h"
+#include "class_vessel_unite.h"
+#include "class_unite.h"
+#include "player.h"
 
 using namespace std;
 using namespace sf;

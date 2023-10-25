@@ -1,11 +1,11 @@
 #include "class_vessel.h"
-//#include <stdio.h>
+
 #include <iostream>
 
 using namespace std;
 using namespace sf;
 
-// CONSSTRUCTORS
+// CONSTRUCTORS
 
 vessel::vessel()
 {
@@ -15,7 +15,7 @@ cerr << "Constructeur par défaut du Bâtiment (vessel)" << endl;
     PV = 1000;
     lvl = 1;
     prix = 10;
-    position_vessel=RectangleShape(Vector2f(0.f,0.f));
+    position_vessel = RectangleShape(Vector2f(0.f,0.f));
 }
 
 

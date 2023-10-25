@@ -2,10 +2,10 @@
 #define INPUT_H
 
 #include <SFML/Graphics.hpp>
+
 using namespace sf;
 
-class Input
-{
+class Input{
 public :
     struct Button {bool left; bool right;};
     Input();
@@ -18,4 +18,4 @@ private :
 
 };
 
-#endif // INPUT_H
+#endif

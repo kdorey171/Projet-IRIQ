@@ -1,4 +1,5 @@
 #include "class_input.h"
+
 #include <iostream>
 
 using namespace sf;

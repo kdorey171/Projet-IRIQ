@@ -1,6 +1,7 @@
 #include "class_vessel_unite.h"
-#include "class_unites"
-// dev class vessel_unite
+
+using namespace std;
+using namespace sf;
 
 
 vessel_unite::vessel_unite()
@@ -8,13 +9,22 @@ vessel_unite::vessel_unite()
 #ifdef __DEBUG
 cerr << "Constructeur Bâtiment unite" << endl;
 #endif // __DEBUG
-spawn_possible=false;
-PV = 1000;
-type = 0;
-lvl = 1;
-prix = 10;
-position_vessel=RectangleShape(Vector2f(0.f,0.f));
+    spawn_possible = false;
+    PV = 1000;
+    type = 0;
+    prix = 20;
 }
+
+vessel_unite::~vessel_unite()
+{
+#ifdef __DEBUG
+cerr << "Destruction du Bâtiment ressource (vessel_ressource)" << endl;
+#endif // __DEBUG
+}
+
+
+// METHODS
+
 
 void vessel_unite::set_spawn(bool a)
 {

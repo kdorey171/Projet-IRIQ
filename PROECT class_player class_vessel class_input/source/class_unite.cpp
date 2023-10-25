@@ -1,6 +1,15 @@
-# include "class_unites.h"
+#include "class_unite.h"
 
 ////// Dev class_unités //////
+
+Unites::Unites(){
+    attaque=50;
+    PV=200;
+    vitesse=5;
+    Butin=100;
+    position_x=10;
+    position_y=10;
+}
 
 int Unites::get_PV(){
     return PV;
@@ -42,12 +51,4 @@ void Unites::deplacement(){
 }
 
 
-Unites::Unites(){
-attaque=50;
-PV=200;
-vitesse=5;
-Butin=100;
-position_x=10;
-position_y=10;
-}
 

@@ -1,14 +1,17 @@
 #ifndef CLASS_VESSEL_H
 #define CLASS_VESSEL_H
 
-#include <SFML/Graphics.hpp>
 #include "player.h"
+
+#include <SFML/Graphics.hpp>
+
 
 class vessel {
 protected :
     int PV;
     int lvl;
     int prix;
+    int type;
     sf::RectangleShape position_vessel;
 
 public :
@@ -38,8 +41,6 @@ public :
     build(); // construire un bâtiment, class bank allow?
     create_unit() // class unit
     */
-
-
 
 };
 

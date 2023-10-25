@@ -1,8 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-class player
-{
+class player {
 protected :
     int num_player;
     int cash;
