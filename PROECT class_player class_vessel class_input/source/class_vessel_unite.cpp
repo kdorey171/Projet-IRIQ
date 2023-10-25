@@ -11,7 +11,7 @@ cerr << "Constructeur Bâtiment unite" << endl;
 #endif // __DEBUG
     spawn_possible = false;
     PV = 1000;
-    type = 0;
+    type = 1;
     prix = 20;
 }
 
@@ -29,6 +29,11 @@ cerr << "Destruction du Bâtiment ressource (vessel_ressource)" << endl;
 void vessel_unite::set_spawn(bool a)
 {
     spawn_possible=a;
+}
+
+bool vessel_unite::get_spawn_possible()
+{
+    return spawn_possible;
 }
 
 Unites vessel_unite::create_unite()

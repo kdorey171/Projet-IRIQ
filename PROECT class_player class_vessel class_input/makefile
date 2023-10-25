@@ -1,4 +1,8 @@
-project : main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o 
+all :
+	rm *.o
+	make project
+
+project : main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o
 	g++ main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o -I"include" -o project -Wfatal-errors -lsfml-graphics -lsfml-window -lsfml-system
 
 class_vessel.o : source/class_vessel.cpp include/class_vessel.h

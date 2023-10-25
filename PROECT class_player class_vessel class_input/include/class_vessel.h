@@ -30,12 +30,24 @@ public :
     void set_lvl(int new_level);
     int get_lvl();
 
+    int get_type();
+
+
     sf::Vector2f get_position();
     void set_position(sf::Vector2f);
     void set_size(sf::Vector2f);
     void set_color(sf::Color);
 
     bool allow_build(player);
+
+
+    /// fonction classe fille en virtual
+
+
+    virtual bool get_spawn_possible(){return false;}
+    virtual void set_spawn(bool){int a;}
+
+
 
     /*
     build(); // construire un bâtiment, class bank allow?

@@ -66,8 +66,7 @@ int main()
             /// CARTES à JOUER
 
     // Tableau des carrées
-    std::vector<RectangleShape> squares;
-    std::vector<vessel> bat;
+    std::vector<vessel*> bat;
 
     // Tableau des carrées initiaux
     std::vector<RectangleShape> initsquares;
@@ -100,7 +99,6 @@ int main()
 
 
     bool vessel_select = false;
-    int squaresi = -1;
     int indice_bat = 0;
 
 
@@ -126,11 +124,11 @@ int main()
                 {
                     if (vessel_select == false) {vessel_select=true;}
 
-                    vessel bat_test;
-                    bat_test.set_size(size_vessel);
-                    bat_test.set_color(sf::Color::Red);
-                    bat_test.set_position(size_vessel);
-                    bat.push_back(bat_test);
+                    vessel* newbat = new vessel;
+                    newbat->set_size(size_vessel);
+                    newbat->set_color(sf::Color::Red);
+                    newbat->set_position(size_vessel);
+                    bat.push_back(newbat);
                     indice_bat += 1;
 
 
@@ -140,11 +138,11 @@ int main()
                 {
                     if (vessel_select == false) {vessel_select=true;}
 
-                    vessel bat_test;
-                    bat_test.set_size(size_vessel);
-                    bat_test.set_color(sf::Color::Blue);
-                    bat_test.set_position(Vector2f(80.f, 20.f));
-                    bat.push_back(bat_test);
+                    vessel* newbat = new vessel_unite;
+                    newbat->set_size(size_vessel);
+                    newbat->set_color(sf::Color::Blue);
+                    newbat->set_position(Vector2f(80.f, 20.f));
+                    bat.push_back(newbat);
                     indice_bat += 1;
                 }
 
@@ -152,17 +150,17 @@ int main()
                 {
                     if (vessel_select == false) {vessel_select=true;}
 
-                    vessel bat_test;
-                    bat_test.set_size(size_vessel);
-                    bat_test.set_color(sf::Color::Green);
-                    bat_test.set_position(Vector2f(140.f, 20.f));
-                    bat.push_back(bat_test);
+                    vessel* newbat = new vessel;
+                    newbat->set_size(size_vessel);
+                    newbat->set_color(sf::Color::Green);
+                    newbat->set_position(Vector2f(140.f, 20.f));
+                    bat.push_back(newbat);
                     indice_bat += 1;
                 }
 
                 else if (vessel_select == true)
                 {
-                    FloatRect rect_vessel = bat[indice_bat-1].afficher().getGlobalBounds();
+                    FloatRect rect_vessel = bat[indice_bat-1]->afficher().getGlobalBounds();
                     if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
                         vessel_select = false;
@@ -226,10 +224,30 @@ int main()
 
         /// BACKGROUND
 
-        for (vessel& bats : bat)
+        for (vessel* bats : bat)
         {
-            window.draw(bats.afficher());
+
+            if (bats->get_type()==1 && !vessel_select )
+            {
+                #ifdef __DEBUG
+                cout << "bat unite regardé" << endl;
+                #endif // __DEBUG
+
+                if (!bats->get_spawn_possible())
+                {
+                    #ifdef __DEBUG
+                    cout << "bats activer" << endl;
+                    #endif // __DEBUG
+                    bats->set_spawn(true);
+
+
+                }
+            }
+
+            window.draw(bats->afficher());
+            #ifdef __DEBUG
             cout << indice_bat << endl;
+            #endif // __DEBUG
         }
 
 
@@ -241,8 +259,8 @@ int main()
         if (vessel_select)
         {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-            bat[indice_bat-1].set_position(Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)));
-            window.draw(bat[indice_bat-1].afficher());
+            bat[indice_bat-1]->set_position(Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)));
+            window.draw(bat[indice_bat-1]->afficher());
         }
 
 

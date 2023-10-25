@@ -30,6 +30,7 @@ public:
     //methode
     Unites create_unite();
     void set_spawn(bool);
+    bool get_spawn_possible();
 
 
 };

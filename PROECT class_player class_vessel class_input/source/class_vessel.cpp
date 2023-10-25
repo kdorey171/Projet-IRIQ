@@ -58,6 +58,13 @@ void vessel::set_lvl(int new_lvl)
     lvl = new_lvl;
 }
 
+
+int vessel::get_type()
+{
+    return type;
+}
+
+
 Vector2f vessel::get_position()
 {
     return position_vessel.getPosition();
