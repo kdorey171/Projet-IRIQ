@@ -4,7 +4,12 @@
 #include "player.h"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 
+#include <SFML/Graphics.hpp>
+
+using namespace sf;
 
 class vessel {
 protected :
@@ -46,7 +51,10 @@ public :
 
     virtual bool get_spawn_possible(){return false;}
     virtual void set_spawn(bool){int a;}
-
+    virtual float get_clockspawn(){return 0.f;}
+    virtual float get_clockdispawn(){return 0.f;}
+    virtual void reset_clockspawn(){int a;}
+    virtual void reset_clockdispawn(){int a;}
 
 
     /*

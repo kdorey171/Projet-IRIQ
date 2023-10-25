@@ -7,20 +7,23 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <vector>
 
+using namespace std;
+using namespace sf;
 
 class vessel_unite : public vessel {
 protected :
 
     bool spawn_possible;
-
-
+    vector<Unites> unite;
+    int nb_unite;
 
 public:
 
     // timer
-    sf::Clock circleDispawnClock;
-    sf::Clock circleSpawnClock;
+    Clock circleDispawnClock;
+    Clock circleSpawnClock;
 
     // constructeur
     vessel_unite();
@@ -31,6 +34,10 @@ public:
     Unites create_unite();
     void set_spawn(bool);
     bool get_spawn_possible();
+    float get_clockspawn();
+    float get_clockdispawn();
+    void reset_clockspawn();
+    void reset_clockdispawn();
 
 
 };

@@ -239,9 +239,23 @@ int main()
                     cout << "bats activer" << endl;
                     #endif // __DEBUG
                     bats->set_spawn(true);
-
-
+                    bats->reset_clockspawn();
                 }
+
+
+                if (bats->get_spawn_possible())
+                {
+                    if (bats->get_clockspawn() >= 1)
+                    {
+                        //#ifdef __DEBUG
+                        cout << bats->get_clockspawn() << endl;
+                        //#endif // __DEBUG
+                        bats->reset_clockspawn();
+
+                    }
+                }
+
+
             }
 
             window.draw(bats->afficher());

@@ -29,7 +29,6 @@ RectangleShape Unites::get_position()
 }
 
 
-
 void Unites::set_PV(int a){
     PV=a;
 }

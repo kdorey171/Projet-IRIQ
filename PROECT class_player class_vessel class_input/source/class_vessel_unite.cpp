@@ -13,6 +13,7 @@ cerr << "Constructeur Bâtiment unite" << endl;
     PV = 1000;
     type = 1;
     prix = 20;
+    nb_unite=0;
 }
 
 vessel_unite::~vessel_unite()
@@ -41,5 +42,34 @@ Unites vessel_unite::create_unite()
     Unites unite;
     return unite;
 }
+
+float vessel_unite::get_clockspawn()
+{
+    return circleSpawnClock.getElapsedTime().asSeconds();
+}
+
+
+float vessel_unite::get_clockdispawn()
+{
+    return circleDispawnClock.getElapsedTime().asSeconds();
+}
+
+
+void vessel_unite::reset_clockspawn()
+{
+    circleSpawnClock.restart();
+}
+
+void vessel_unite::reset_clockdispawn()
+{
+    circleDispawnClock.restart();
+}
+
+
+
+
+
+
+
 
 
