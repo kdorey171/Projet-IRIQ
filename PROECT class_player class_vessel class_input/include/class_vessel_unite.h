@@ -16,13 +16,11 @@ class vessel_unite : public vessel {
 protected :
 
     bool spawn_possible;
-    vector<Unites> unite;
     int nb_unite;
 
 public:
 
     // timer
-    Clock circleDispawnClock;
     Clock circleSpawnClock;
 
     // constructeur
@@ -31,13 +29,14 @@ public:
     ~vessel_unite();
 
     //methode
-    Unites create_unite();
+    int get_nbunite();
+    void set_nbunite(int);
+    void create_unite();
+    void delete_unite();
     void set_spawn(bool);
     bool get_spawn_possible();
     float get_clockspawn();
-    float get_clockdispawn();
     void reset_clockspawn();
-    void reset_clockdispawn();
 
 
 };

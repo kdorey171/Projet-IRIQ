@@ -86,6 +86,13 @@ void vessel::set_color(sf::Color color)
     position_vessel.setFillColor(color);
 }
 
+Color vessel::get_color()
+{
+    return position_vessel.getFillColor();
+}
+
+
+
 //-------------------------------------------------------------------------
 
 bool vessel::allow_build(player Player) // player_1 or player_2

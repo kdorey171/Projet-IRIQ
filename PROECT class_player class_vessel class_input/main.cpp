@@ -30,6 +30,8 @@ int main()
     Vector2f size_ligne_fight = Vector2f(1000.f,5.f);
     Vector2f size_vessel = Vector2f(25.f,25.f);
 
+    Clock clock_init;
+    window.setFramerateLimit(60);
 
                     /// Initialisation MAP
 
@@ -67,6 +69,7 @@ int main()
 
     // Tableau des carrées
     std::vector<vessel*> bat;
+    vector<Unites> vect_unite;
 
     // Tableau des carrées initiaux
     std::vector<RectangleShape> initsquares;
@@ -100,6 +103,7 @@ int main()
 
     bool vessel_select = false;
     int indice_bat = 0;
+    int indice_unit = 0;
 
 
 
@@ -120,45 +124,48 @@ int main()
                 sf::FloatRect greenSquareBounds = greenSquare.getGlobalBounds();
 
 
-                if (redSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
+                if (!vessel_select)
                 {
-                    if (vessel_select == false) {vessel_select=true;}
+                    if (redSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
+                    {
+                        if (vessel_select == false) {vessel_select=true;}
 
-                    vessel* newbat = new vessel;
-                    newbat->set_size(size_vessel);
-                    newbat->set_color(sf::Color::Red);
-                    newbat->set_position(size_vessel);
-                    bat.push_back(newbat);
-                    indice_bat += 1;
+                        vessel* newbat = new vessel;
+                        newbat->set_size(size_vessel);
+                        newbat->set_color(sf::Color::Red);
+                        newbat->set_position(size_vessel);
+                        bat.push_back(newbat);
+                        indice_bat += 1;
 
 
+                    }
+
+                    else if (blueSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
+                    {
+                        if (vessel_select == false) {vessel_select=true;}
+
+                        vessel* newbat = new vessel_unite;
+                        newbat->set_size(size_vessel);
+                        newbat->set_color(sf::Color::Blue);
+                        newbat->set_position(Vector2f(80.f, 20.f));
+                        bat.push_back(newbat);
+                        indice_bat += 1;
+                    }
+
+                    else if (greenSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
+                    {
+                        if (vessel_select == false) {vessel_select=true;}
+
+                        vessel* newbat = new vessel;
+                        newbat->set_size(size_vessel);
+                        newbat->set_color(sf::Color::Green);
+                        newbat->set_position(Vector2f(140.f, 20.f));
+                        bat.push_back(newbat);
+                        indice_bat += 1;
+                    }
                 }
 
-                else if (blueSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
-                {
-                    if (vessel_select == false) {vessel_select=true;}
-
-                    vessel* newbat = new vessel_unite;
-                    newbat->set_size(size_vessel);
-                    newbat->set_color(sf::Color::Blue);
-                    newbat->set_position(Vector2f(80.f, 20.f));
-                    bat.push_back(newbat);
-                    indice_bat += 1;
-                }
-
-                else if (greenSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
-                {
-                    if (vessel_select == false) {vessel_select=true;}
-
-                    vessel* newbat = new vessel;
-                    newbat->set_size(size_vessel);
-                    newbat->set_color(sf::Color::Green);
-                    newbat->set_position(Vector2f(140.f, 20.f));
-                    bat.push_back(newbat);
-                    indice_bat += 1;
-                }
-
-                else if (vessel_select == true)
+                else if (vessel_select)
                 {
                     FloatRect rect_vessel = bat[indice_bat-1]->afficher().getGlobalBounds();
                     if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
@@ -222,10 +229,12 @@ int main()
             window.draw(bloc_ligne_fight_5);
         }
 
-        /// BACKGROUND
+        /// BACKGROUND VESSEL
 
         for (vessel* bats : bat)
         {
+
+                /// VESSEL_UNITE
 
             if (bats->get_type()==1 && !vessel_select )
             {
@@ -233,6 +242,7 @@ int main()
                 cout << "bat unite regardé" << endl;
                 #endif // __DEBUG
 
+                // Pose du batiment
                 if (!bats->get_spawn_possible())
                 {
                     #ifdef __DEBUG
@@ -240,29 +250,84 @@ int main()
                     #endif // __DEBUG
                     bats->set_spawn(true);
                     bats->reset_clockspawn();
+                    clock_init.restart();
                 }
 
-
+                // Create Unite
                 if (bats->get_spawn_possible())
                 {
                     if (bats->get_clockspawn() >= 1)
                     {
-                        //#ifdef __DEBUG
-                        cout << bats->get_clockspawn() << endl;
-                        //#endif // __DEBUG
+
                         bats->reset_clockspawn();
+                        Unites newunite(bats->get_position(),bats->get_color());
+
+                        #ifdef __DEBUG
+                        cout << "bat" << bats->get_position().x << " / " << bats->get_position().y << endl;
+                        #endif // __DEBUG
+
+                        vect_unite.push_back(newunite);
+                        bats->set_nbunite(1);
+                        indice_unit+=1;
+
+                        #ifdef __DEBUG
+                        cout << "unite :" << indice_unit << endl;
+                        #endif // __DEBUG
+
+                        #ifdef __DEBUG
+                        cout << vect_unite.size() << endl;
+                        #endif // __DEBUG
 
                     }
-                }
 
+                }
 
             }
 
             window.draw(bats->afficher());
-            #ifdef __DEBUG
-            cout << indice_bat << endl;
-            #endif // __DEBUG
-        }
+
+
+        } // FIN BACKGROUND VESSEL
+
+        /// BACKGROUND UNITE            !!!!! Bug de deplacement (la fonctin ne marche pas ...)!!!!!
+
+
+
+        for (Unites unit : vect_unite)
+        {
+            // Initialisation
+            if(!unit.get_spawn_unit())
+            {
+                unit.reset_clockdispawn();
+                unit.set_spawn_unit(true);
+            }
+
+            //Deplacement
+            if (unit.get_spawn_unit() && unit.get_clockdispawn()>=0)
+            {
+
+                //#ifdef __DEBUG
+                cout << "unite" << unit.get_position().x << " / " << unit.get_position().y << endl;
+                //#endif // __DEBUG
+
+                unit.deplacement();
+
+            }
+
+            // Destruction
+            if (unit.get_spawn_unit() && unit.get_clockdispawn()>=5 )
+            {
+                #ifdef __DEBUG
+                cout << "destuction" << endl;
+                #endif // __DEBUG
+
+                unit.~Unites();
+                unit.reset_clockdispawn();
+            }
+
+            window.draw(unit.afficher());
+
+        } // FIN BACKGROUND UNITE
 
 
         for (size_t i = 0; i < initsquares.size(); i++) {

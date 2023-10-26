@@ -42,6 +42,7 @@ public :
     void set_position(sf::Vector2f);
     void set_size(sf::Vector2f);
     void set_color(sf::Color);
+    Color get_color();
 
     bool allow_build(player);
 
@@ -50,12 +51,11 @@ public :
 
 
     virtual bool get_spawn_possible(){return false;}
-    virtual void set_spawn(bool){int a;}
+    virtual void set_spawn(bool){}
     virtual float get_clockspawn(){return 0.f;}
-    virtual float get_clockdispawn(){return 0.f;}
-    virtual void reset_clockspawn(){int a;}
-    virtual void reset_clockdispawn(){int a;}
-
+    virtual void reset_clockspawn(){}
+    virtual int get_nbunite(){return 0;}
+    virtual void set_nbunite(int){}
 
     /*
     build(); // construire un bâtiment, class bank allow?

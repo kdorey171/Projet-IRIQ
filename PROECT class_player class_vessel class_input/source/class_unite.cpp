@@ -7,41 +7,79 @@ using namespace sf;
 
 ////// Dev class_unités //////
 
-Unites::Unites(){
+Unites::Unites(Vector2f newposition, Color color)
+{
     attaque=50;
     PV=200;
-    vitesse=5.f;
+    vitesse=10.f;
     Butin=100;
-    position = RectangleShape(Vector2f(10.f,10.f));
+    spawn_unit=false;
+    position.setRadius(5.f);
+    position.setPosition(newposition);
+    position.setFillColor(color);
 }
 
-int Unites::get_PV(){
-    return PV;
+Unites::~Unites()
+{
+    #ifdef __DEBUG
+    cout << "destructeur Unites" << endl;
+    #endif // __DEBUG
 }
 
-float Unites::get_vitesse(){
-    return vitesse;
-}
 
-RectangleShape Unites::get_position()
+CircleShape Unites::afficher()
 {
     return position;
 }
 
 
+int Unites::get_PV(){
+    return PV;
+}
+
 void Unites::set_PV(int a){
     PV=a;
 }
+
+
+bool Unites::get_spawn_unit(){
+    return spawn_unit;
+}
+
+void Unites::set_spawn_unit(bool a){
+    spawn_unit=a;
+}
+
+
+
+float Unites::get_vitesse(){
+    return vitesse;
+}
+
+Vector2f Unites::get_position()
+{
+    return position.getPosition();
+}
+
 
 void Unites::set_position(Vector2f newposition)
 {
     position.setPosition(newposition);
 }
 
-void Unites::deplacement(){
-    if (position.getPosition().x<490 && position.getPosition().y<590)
-        position.setPosition(Vector2f(vitesse,vitesse));
+void Unites::deplacement()
+{
+    position.move(vitesse,0.f);
 }
 
 
+void Unites::reset_clockdispawn()
+{
+    circleDispawnClock.restart();
+}
+
+float Unites::get_clockdispawn()
+{
+    return circleDispawnClock.getElapsedTime().asSeconds();
+}
 

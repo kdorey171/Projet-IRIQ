@@ -15,21 +15,36 @@ using namespace sf;
 
 class Unites{
 protected :
+    Clock circleDispawnClock;
+    bool spawn_unit;
     int attaque;
     int PV;
     float vitesse;
     int Butin;  // C'est la quantité de ressources apportée au joueur adverse quand il tue une unité
-    RectangleShape position;
+    CircleShape position;
 
 public :
+
 //void attaque_recu(); /// A modifier type de sortie !!
-    Unites();
+
+    Unites(Vector2f,Color);
+    ~Unites();
+
+    CircleShape afficher();
+
     void deplacement();
-    RectangleShape get_position();
-    void set_position(Vector2f);
-    int get_PV();
     float get_vitesse();
+    Vector2f get_position();
+    void set_position(Vector2f);
+
+    int get_PV();
     void set_PV(int);
+
+    bool get_spawn_unit();
+    void set_spawn_unit(bool);
+
+    float get_clockdispawn();
+    void reset_clockdispawn();
 
 };
 
