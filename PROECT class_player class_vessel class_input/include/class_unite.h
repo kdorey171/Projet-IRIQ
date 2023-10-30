@@ -38,7 +38,7 @@ public :
     void set_position(Vector2f);
 
     int get_PV();
-    void set_PV(int);
+    void loose_PV(int);
 
     bool get_spawn_unit();
     void set_spawn_unit(bool);

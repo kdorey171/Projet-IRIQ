@@ -24,6 +24,9 @@ Unites::~Unites()
     #ifdef __DEBUG
     cout << "destructeur Unites" << endl;
     #endif // __DEBUG
+
+
+
 }
 
 
@@ -37,8 +40,8 @@ int Unites::get_PV(){
     return PV;
 }
 
-void Unites::set_PV(int a){
-    PV=a;
+void Unites::loose_PV(int a){
+    PV-=a;
 }
 
 
@@ -69,7 +72,8 @@ void Unites::set_position(Vector2f newposition)
 
 void Unites::deplacement()
 {
-    position.move(vitesse,0.f);
+    if(position.getPosition().x<900)
+        position.move(vitesse,0.f);
 }
 
 

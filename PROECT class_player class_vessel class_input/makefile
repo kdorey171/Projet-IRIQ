@@ -1,5 +1,5 @@
 all :
-	rm *.o
+	rm *.o 2>/dev/null || echo "rien a clean"
 	make project
 
 project : main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o

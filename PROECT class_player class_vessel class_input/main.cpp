@@ -260,7 +260,9 @@ int main()
                     {
 
                         bats->reset_clockspawn();
-                        Unites newunite(bats->get_position(),bats->get_color());
+                        Vector2f newposition_unite=bats->get_position();
+                        newposition_unite.x+= 20;
+                        Unites newunite(newposition_unite,bats->get_color());
 
                         #ifdef __DEBUG
                         cout << "bat" << bats->get_position().x << " / " << bats->get_position().y << endl;
@@ -289,12 +291,14 @@ int main()
 
         } // FIN BACKGROUND VESSEL
 
-        /// BACKGROUND UNITE            !!!!! Bug de deplacement (la fonctin ne marche pas ...)!!!!!
+        /// BACKGROUND UNITE
 
 
 
-        for (Unites unit : vect_unite)
+        for (int i=0;i<vect_unite.size();i++)
         {
+
+            Unites& unit = vect_unite[i];
             // Initialisation
             if(!unit.get_spawn_unit())
             {
@@ -303,26 +307,33 @@ int main()
             }
 
             //Deplacement
-            if (unit.get_spawn_unit() && unit.get_clockdispawn()>=0)
+            if (unit.get_spawn_unit() && unit.get_clockdispawn()>=0.5)
             {
 
-                //#ifdef __DEBUG
+                #ifdef __DEBUG
                 cout << "unite" << unit.get_position().x << " / " << unit.get_position().y << endl;
-                //#endif // __DEBUG
+                #endif // __DEBUG
 
                 unit.deplacement();
+                unit.loose_PV(20);
+                unit.reset_clockdispawn();
 
             }
 
             // Destruction
-            if (unit.get_spawn_unit() && unit.get_clockdispawn()>=5 )
+            if (unit.get_spawn_unit() && unit.get_PV()<=0 )
             {
                 #ifdef __DEBUG
                 cout << "destuction" << endl;
                 #endif // __DEBUG
 
-                unit.~Unites();
-                unit.reset_clockdispawn();
+
+                //Unites& unit_transfer=vect_unite.back();
+
+                unit=vect_unite.back();
+                //unit=unit_transfer;
+                vect_unite.pop_back();
+
             }
 
             window.draw(unit.afficher());
