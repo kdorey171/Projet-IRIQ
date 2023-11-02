@@ -1,6 +1,6 @@
 all :
-	rm *.o 2>/dev/null || echo "rien a clean"
 	make project
+	rm *.o 2>/dev/null || echo "rien a clean"
 
 project : main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o
 	g++ main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o -I"include" -o project -Wfatal-errors -lsfml-graphics -lsfml-window -lsfml-system
