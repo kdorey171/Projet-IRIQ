@@ -25,6 +25,7 @@ int main()
 
     /// Initialisation des comptes des players.
     player player_1(1);
+    int account_player_1 = player_1.get_account();
     player player_2(2);
     Vector2f size_base = Vector2f(300.f,450.f);
     Vector2f size_ligne_fight = Vector2f(1000.f,5.f);
@@ -156,7 +157,7 @@ int main()
                     {
                         if (vessel_select == false) {vessel_select=true;}
 
-                        vessel* newbat = new vessel;
+                        vessel* newbat = new vessel_ressource;
                         newbat->set_size(size_vessel);
                         newbat->set_color(sf::Color::Green);
                         newbat->set_position(Vector2f(140.f, 20.f));
@@ -165,38 +166,57 @@ int main()
                     }
                 }
 
+                //Empêche de poser si le batiement n'est pas sur une zone de construction
+
                 else if (vessel_select)
                 {
+                    std::vector<sf::FloatRect> shapeBounds;
+
                     FloatRect rect_vessel = bat[indice_bat-1]->afficher().getGlobalBounds();
-                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+
+                    for (vessel* bats : bat) {
+                        if (bats != bat[indice_bat - 1]) {
+                            shapeBounds.push_back(bats->afficher().getGlobalBounds());
+                        }
+                    }
+
+                    bool intersectsWithShapeBounds = false;
+                    for (const sf::FloatRect& shapeBound : shapeBounds) {
+                        if (rect_vessel.intersects(shapeBound)) {
+                            intersectsWithShapeBounds = true;
+                            break;
+                        }
+                    }
+
+                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
                         #ifdef __DEBUG
@@ -233,6 +253,25 @@ int main()
 
         for (vessel* bats : bat)
         {
+
+                /// VESSEL_RESSOURCE
+
+            if (bats->get_type()==0 && !vessel_select )
+            {
+                #ifdef __DEBUG
+                cout << "bat ressource regardé" << endl;
+                #endif // __DEBUG
+
+                //Regarde si le batiment ressource doit donner la thune (si sa clock a atteint le temps de spawn de l'argent)
+                if(bats->get_clock() >= bats->get_gain_time())
+                {
+                    std::cout << "Le compte du joueur 1 est a : " << player_1.get_account() << std::endl;
+                    account_player_1 += bats->get_gain();
+                    bats->reset_clock();
+                }
+
+                player_1.set_account(account_player_1);
+            }
 
                 /// VESSEL_UNITE
 

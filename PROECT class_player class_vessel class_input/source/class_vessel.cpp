@@ -13,6 +13,7 @@ vessel::vessel()
 cerr << "Constructeur par défaut du Bâtiment (vessel)" << endl;
 #endif // __DEBUG
     PV = 1000;
+    type = -1;
     lvl = 1;
     prix = 10;
     position_vessel = RectangleShape(Vector2f(0.f,0.f));
