@@ -12,9 +12,13 @@ vessel_ressource::vessel_ressource()
 cerr << "Constructeur par défaut du Bâtiment Ressource (vessel_ressource)" << endl;
 #endif // __DEBUG
     PV = 1000;
+    type = 0;
     prix = 10;
     gain = 10;
-    gain_time = 5;
+    gain_time = 1;
+    position_vessel.setFillColor(sf::Color::Green);
+    position_vessel.setSize(Vector2f(25.f,25.f));
+    position_vessel.setPosition(Vector2f(80.f,10.f));
 }
 
 vessel_ressource::~vessel_ressource()
@@ -49,6 +53,16 @@ int vessel_ressource::get_gain_time(void)
 void vessel_ressource::set_gain_time(int new_gain_time)
 {
     gain_time = new_gain_time;
+}
+
+float vessel_ressource::get_clock(void)
+{
+    return ressourceGainClock.getElapsedTime().asSeconds();
+}
+
+void vessel_ressource::reset_clock()
+{
+    ressourceGainClock.restart();
 }
 
 
