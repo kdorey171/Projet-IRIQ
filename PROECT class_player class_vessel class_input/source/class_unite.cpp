@@ -7,11 +7,12 @@ using namespace sf;
 
 ////// Dev class_unités //////
 
-Unites::Unites(Vector2f newposition, Color color)
+Unites::Unites(Vector2f newposition, Color color, int player)
 {
+    num_player=player;
     attaque=50;
     PV=200;
-    vitesse=10.f;
+    vitesse = 10.f * num_player;
     Butin=100;
     spawn_unit=false;
     position.setRadius(5.f);
@@ -27,6 +28,12 @@ Unites::~Unites()
 
 
 
+}
+
+
+int Unites::get_player()
+{
+    return num_player;
 }
 
 

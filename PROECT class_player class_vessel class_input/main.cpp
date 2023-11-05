@@ -26,7 +26,11 @@ int main()
     /// Initialisation des comptes des players.
     player player_1(1);
     int account_player_1 = player_1.get_account();
-    player player_2(2);
+    player player_IA(-1);
+
+    cout << "num_player = " << player_IA.get_player() << endl;
+
+
     Vector2f size_base = Vector2f(300.f,450.f);
     Vector2f size_ligne_fight = Vector2f(1000.f,5.f);
     Vector2f size_vessel = Vector2f(25.f,25.f);
@@ -95,6 +99,23 @@ int main()
     RectangleShape followingSquare(size_vessel);
     followingSquare.setFillColor(sf::Color::Red);
 
+
+    /// Création des premier batiments
+
+
+    vessel* vessel_player_1 = new vessel_unite(player_1.get_player());
+    vessel_player_1->set_color(sf::Color::Blue);
+    vessel_player_1->set_size(size_vessel);
+    vessel_player_1->set_position(Vector2f(230.f,190.f));
+    bat.push_back(vessel_player_1);
+
+    vessel* vessel_player_IA = new vessel_unite(player_IA.get_player());
+    vessel_player_IA->set_color(sf::Color::Blue);
+    vessel_player_IA->set_size(size_vessel);
+    vessel_player_IA->set_position(Vector2f(770.f,190.f));
+    bat.push_back(vessel_player_IA);
+
+
                 /// FIN INITIALISATION MAP
 
 
@@ -103,7 +124,7 @@ int main()
 
 
     bool vessel_select = false;
-    int indice_bat = 0;
+    int indice_bat = 2;
     int indice_unit = 0;
 
 
@@ -145,10 +166,13 @@ int main()
                     {
                         if (vessel_select == false) {vessel_select=true;}
 
-                        vessel* newbat = new vessel_unite;
+                        vessel* newbat = new vessel_unite(player_1.get_player());
                         newbat->set_size(size_vessel);
                         newbat->set_color(sf::Color::Blue);
                         newbat->set_position(Vector2f(80.f, 20.f));
+
+                        //cout << "bat du player " << newbat->get_player() << endl;
+
                         bat.push_back(newbat);
                         indice_bat += 1;
                     }
@@ -207,7 +231,7 @@ int main()
                         bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
 
                         #ifdef __DEBUG
-                        cout << "bien placé !" << endl;
+                        cout << bat[indice_bat-1]->get_position().x << " " << true_position_y << endl;
                         #endif // __DEBUG
                     }
                     if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
@@ -331,11 +355,21 @@ int main()
 
                         bats->reset_clockspawn();
                         Vector2f newposition_unite=bats->get_position();
-                        newposition_unite.x+= 20;
-                        Unites newunite(newposition_unite,bats->get_color());
+                        if (bats->get_player()>0)
+                        {
+                            newposition_unite.x+= 30;
+                            newposition_unite.y+= 5;
+                        }
+                        if (bats->get_player()<0)
+                        {
+                            newposition_unite.x-= 10;
+                            newposition_unite.y+= 5;
+                        }
+
+                        Unites newunite(newposition_unite,bats->get_color(),bats->get_player());
 
                         #ifdef __DEBUG
-                        cout << "bat" << bats->get_position().x << " / " << bats->get_position().y << endl;
+                        cout << "unite du player " << newunite.get_player() << endl;
                         #endif // __DEBUG
 
                         vect_unite.push_back(newunite);
@@ -361,8 +395,10 @@ int main()
 
         } // FIN BACKGROUND VESSEL
 
-        /// BACKGROUND UNITE
 
+
+
+        /// BACKGROUND UNITE
 
 
         for (int i=0;i<vect_unite.size();i++)
@@ -385,7 +421,7 @@ int main()
                 #endif // __DEBUG
 
                 unit.deplacement();
-                unit.loose_PV(20);
+                unit.loose_PV(2);
                 unit.reset_clockdispawn();
 
             }
@@ -411,9 +447,14 @@ int main()
         } // FIN BACKGROUND UNITE
 
 
+
+
         for (size_t i = 0; i < initsquares.size(); i++) {
             window.draw(initsquares[i]);
         }
+
+
+
 
 
         if (vessel_select)

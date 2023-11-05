@@ -16,6 +16,7 @@ using namespace sf;
 class Unites{
 protected :
     Clock circleDispawnClock;
+    int num_player;
     bool spawn_unit;
     int attaque;
     int PV;
@@ -27,10 +28,12 @@ public :
 
 //void attaque_recu(); /// A modifier type de sortie !!
 
-    Unites(Vector2f,Color);
+    Unites(Vector2f,Color,int);
     ~Unites();
 
     CircleShape afficher();
+
+    int get_player();
 
     void deplacement();
     float get_vitesse();

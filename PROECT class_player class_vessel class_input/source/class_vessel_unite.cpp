@@ -5,11 +5,12 @@ using namespace sf;
 
 /// Constructeur
 
-vessel_unite::vessel_unite()
+vessel_unite::vessel_unite(int player)
 {
 #ifdef __DEBUG
 cerr << "Constructeur Bâtiment unite" << endl;
 #endif // __DEBUG
+    player_num = player;
     spawn_possible = false;
     PV = 1000;
     type = 1;
@@ -29,7 +30,10 @@ cerr << "Destruction du Bâtiment ressource (vessel_ressource)" << endl;
 
 /// METHODS
 
-
+int vessel_unite::get_player()
+{
+    return player_num;
+}
 
 int vessel_unite::get_nbunite()
 {

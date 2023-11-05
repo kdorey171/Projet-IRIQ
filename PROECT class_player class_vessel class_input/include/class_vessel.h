@@ -56,6 +56,7 @@ public :
     virtual void reset_clockspawn(){}
     virtual int get_nbunite(){return 0;}
     virtual void set_nbunite(int){}
+    virtual int get_player(){return 1;}
 
 
     // batiment ressources
