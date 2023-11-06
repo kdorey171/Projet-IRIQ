@@ -14,7 +14,6 @@ using namespace sf;
 
 class vessel_unite : public vessel {
 protected :
-    int player_num;
     bool spawn_possible;
     int nb_unite;
 
@@ -29,7 +28,6 @@ public:
     ~vessel_unite();
 
     //methode
-    int get_player();
     int get_nbunite();
     void set_nbunite(int);
     void create_unite();
