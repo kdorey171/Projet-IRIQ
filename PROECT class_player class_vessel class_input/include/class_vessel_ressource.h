@@ -32,8 +32,12 @@ public :
     //methodes
     void set_gain(int);
     int get_gain();
+
     void set_gain_time(int);
     int get_gain_time();
+
+    float get_clock();
+    void reset_clock();
 
 
 };

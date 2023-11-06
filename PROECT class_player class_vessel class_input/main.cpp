@@ -128,7 +128,7 @@ int main()
     bat.push_back(vessel_player_1);
 
     vessel* vessel_player_IA = new vessel_unite(player_IA.get_player());
-    vessel_player_IA->set_color(sf::Color::Blue);
+    vessel_player_IA->set_color(sf::Color::Red);
     vessel_player_IA->set_size(size_vessel);
     vessel_player_IA->set_position(Vector2f(770.f,190.f));
     bat.push_back(vessel_player_IA);
@@ -226,7 +226,7 @@ int main()
                     {
                         if (vessel_select == false) {vessel_select=true;}
 
-                        vessel* newbat = new vessel;
+                        vessel* newbat = new vessel_ressource;
                         newbat->set_size(size_vessel);
                         newbat->set_color(sf::Color::Green);
                         newbat->set_position(Vector2f(140.f, 20.f));
@@ -346,7 +346,7 @@ int main()
 
 
                 /// VESSEL_RESSOURCE
-            /*
+
             if (bats->get_type()==0 && !vessel_select )
             {
                 #ifdef __DEBUG
@@ -364,7 +364,7 @@ int main()
                 player_1.set_account(account_player_1);
                 text_banque.setString(std::to_string(account_player_1));
             }
-            */
+
                 /// VESSEL_UNITE
 
             if (bats->get_type()==1 && !vessel_select )
@@ -455,7 +455,7 @@ int main()
                 #endif // __DEBUG
 
                 unit.deplacement();
-                unit.loose_PV(2);
+                unit.loose_PV(10);
                 unit.reset_clockdispawn();
 
             }
