@@ -7,7 +7,7 @@ using namespace std;
 
 Input::Input()
 {
-     button.left=button.right=false;
+     button.left=button.right=button.echap=false;
 }
 
 Input::Button Input::GetButton(void) const // return private
@@ -20,6 +20,25 @@ void Input::InputHandler(Event event, RenderWindow& window)
     if (event.type == Event::Closed)
     {
         window.close();
+    }
+
+    // Touche echap
+
+    if (event.type == Event::KeyPressed)
+    {
+        if (event.key.code == Keyboard::Escape)
+        {
+            button.echap = true;
+        }
+
+    }
+
+    if (event.type == Event::KeyReleased)
+    {
+        if (event.key.code == Keyboard::Escape)
+        {
+            button.echap = false;
+        }
     }
 
     // case button pressed

@@ -7,7 +7,7 @@ using namespace sf;
 
 class Input{
 public :
-    struct Button {bool left; bool right;};
+    struct Button {bool left; bool right;bool echap;};
     Input();
 
     Button GetButton(void) const; // return private
