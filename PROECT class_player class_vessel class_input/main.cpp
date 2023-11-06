@@ -117,6 +117,7 @@ int main()
     followingSquare.setFillColor(sf::Color::Red);
 
 
+
     /// Création des premier batiments
 
 
@@ -132,6 +133,20 @@ int main()
     vessel_player_IA->set_position(Vector2f(770.f,190.f));
     bat.push_back(vessel_player_IA);
 
+
+            /// BANQUE
+
+    sf::Text text_banque;
+    sf::Font font;
+    if (!font.loadFromFile("arial.ttf"))
+    {
+        // error...
+        return 1;
+    }
+    text_banque.setFont(font);
+    text_banque.setCharacterSize(30);
+    text_banque.setFillColor(sf::Color::White);
+    text_banque.setPosition(400.0f, 10.0f);
 
                 /// FIN INITIALISATION MAP
 
@@ -329,6 +344,27 @@ int main()
         for (vessel* bats : bat)
         {
 
+
+                /// VESSEL_RESSOURCE
+            /*
+            if (bats->get_type()==0 && !vessel_select )
+            {
+                #ifdef __DEBUG
+                cout << "bat ressource regardé" << endl;
+                #endif // __DEBUG
+
+                //Regarde si le batiment ressource doit donner la thune (si sa clock a atteint le temps de spawn de l'argent)
+                if(bats->get_clock() >= bats->get_gain_time())
+                {
+                    std::cout << "Le compte du joueur 1 est a : " << player_1.get_account() << std::endl;
+                    account_player_1 += bats->get_gain();
+                    bats->reset_clock();
+                }
+
+                player_1.set_account(account_player_1);
+                text_banque.setString(std::to_string(account_player_1));
+            }
+            */
                 /// VESSEL_UNITE
 
             if (bats->get_type()==1 && !vessel_select )
@@ -471,9 +507,9 @@ int main()
         }
 ///---------------------------------------------------------------------------------------------- FIN MENU
 
+        window.draw(text_banque);
+        window.display();
 
-
-            window.display();
 
     } /// END WINDOWS IS OPEN
 
