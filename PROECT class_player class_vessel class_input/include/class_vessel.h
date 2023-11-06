@@ -49,25 +49,13 @@ public :
 
     /// fonction classe fille en virtual
 
-    // batiment unités
+
     virtual bool get_spawn_possible(){return false;}
     virtual void set_spawn(bool){}
     virtual float get_clockspawn(){return 0.f;}
     virtual void reset_clockspawn(){}
     virtual int get_nbunite(){return 0;}
     virtual void set_nbunite(int){}
-
-
-    // batiment ressources
-    virtual void set_gain(int){}
-    virtual int get_gain(){return 0;}
-    virtual void set_gain_time(int){}
-    virtual int get_gain_time(){return 0;}
-    virtual float get_clock(){return 0.f;}
-    virtual void reset_clock(){}
-
-
-
 
     /*
     build(); // construire un bâtiment, class bank allow?

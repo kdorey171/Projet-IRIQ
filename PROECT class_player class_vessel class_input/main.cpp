@@ -23,9 +23,26 @@ int main()
     cout << "start" << endl;
     RenderWindow window(VideoMode(1000, 500), "Tower Defense");
 
+    // Menu
+
+    /// start_button
+
+    Texture start_button_texture;
+    if (!start_button_texture.loadFromFile("start.png")) // Découpage : sf::IntRect(0,0,348,150), pb use this function
+    {
+        cout << "no texture named start.png" << endl;
+    }
+
+    int start_xsize = 661;
+    int start_ysize = 261;
+    int start_xpos = 500;
+    int start_ypos = 250;
+    Sprite sprite_start_button;
+    sprite_start_button.setTexture(start_button_texture);
+    sprite_start_button.setPosition(Vector2f(start_xpos-start_xsize/2,start_ypos-start_ysize/2)); // position de sprite_start_button
+
     /// Initialisation des comptes des players.
     player player_1(1);
-    int account_player_1 = player_1.get_account();
     player player_2(2);
     Vector2f size_base = Vector2f(300.f,450.f);
     Vector2f size_ligne_fight = Vector2f(1000.f,5.f);
@@ -107,17 +124,30 @@ int main()
     int indice_unit = 0;
 
 
+    int statut = 0; // 0 pour menu & 1 pour jeu
 
-     while (window.isOpen())
+
+    while (window.isOpen())
     {
         Event event;
         while (window.pollEvent(event))
         {
             input.InputHandler(event, window); // Quelles touches sont appuyées ? ou relachées ?
-            Input::Button souris;
-            souris = input.GetButton(); // prendre touches
-//-----------------------------------------------------------------------------------
-            if (souris.left == true)
+            Input::Button touche;
+            touche = input.GetButton(); // prendre touches
+
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+            if (abs(mousePosition.x - start_xpos) < start_xsize/2 && abs(mousePosition.y - start_ypos) < start_ysize/2 && touche.left == true)
+            {
+                statut = 1; // JEU
+                cout << "click validé" << endl;
+            }
+            else if (touche.echap == true) statut = 0; // MENU
+
+            if (statut == 1) {
+///----------------------------------------------------------------------------------- JEU
+            if (touche.left == true)
             {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
                 sf::FloatRect redSquareBounds = redSquare.getGlobalBounds();
@@ -157,7 +187,7 @@ int main()
                     {
                         if (vessel_select == false) {vessel_select=true;}
 
-                        vessel* newbat = new vessel_ressource;
+                        vessel* newbat = new vessel;
                         newbat->set_size(size_vessel);
                         newbat->set_color(sf::Color::Green);
                         newbat->set_position(Vector2f(140.f, 20.f));
@@ -166,108 +196,62 @@ int main()
                     }
                 }
 
-                //Empêche de poser si le batiement n'est pas sur une zone de construction
-
                 else if (vessel_select)
                 {
-                    std::vector<sf::FloatRect> shapeBounds;
-
                     FloatRect rect_vessel = bat[indice_bat-1]->afficher().getGlobalBounds();
-
-                    for (vessel* bats : bat) {
-                        if (bats != bat[indice_bat - 1]) {
-                            shapeBounds.push_back(bats->afficher().getGlobalBounds());
-                        }
-                    }
-
-                    bool intersectsWithShapeBounds = false;
-                    for (const sf::FloatRect& shapeBound : shapeBounds) {
-                        if (rect_vessel.intersects(shapeBound)) {
-                            intersectsWithShapeBounds = true;
-                            break;
-                        }
-                    }
-
-                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
+                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
                         vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_1.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
-
-
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
+                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
                         vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_2.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
+                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
                         vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_3.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
-
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
+                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
                         vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_4.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
+                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
                     {
                         vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_5.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
                 }
             }
-//-----------------------------------------------------------------------------------
-            if (souris.left == false)
+            if (touche.left == false)
             {
 
             }
-
-            if (souris.right == true)
-            {
-                if (vessel_select)
-                {
-                    indice_bat-=1;
-                    bat.pop_back();
-                    vessel_select=false;
-                }
-            }
+///----------------------------------------------------------------------------------- FIN JEU
+        } // FIN statut == 1
 
 
+        } /// FIN POLL EVENT
 
+///----------------------------------------------------------------------------------- JEU
 
-        } // FIN POLL_EVENT
+        if (statut == 1) {
 
         window.clear(sf::Color::Black);
-
         /// BACKGROUND STATIC
-
         window.draw(bloc_base_player);
         window.draw(bloc_base_AI);
 
@@ -281,28 +265,8 @@ int main()
         }
 
         /// BACKGROUND VESSEL
-
         for (vessel* bats : bat)
         {
-
-                /// VESSEL_RESSOURCE
-
-            if (bats->get_type()==0 && !vessel_select )
-            {
-                #ifdef __DEBUG
-                cout << "bat ressource regardé" << endl;
-                #endif // __DEBUG
-
-                //Regarde si le batiment ressource doit donner la thune (si sa clock a atteint le temps de spawn de l'argent)
-                if(bats->get_clock() >= bats->get_gain_time())
-                {
-                    std::cout << "Le compte du joueur 1 est a : " << player_1.get_account() << std::endl;
-                    account_player_1 += bats->get_gain();
-                    bats->reset_clock();
-                }
-
-                player_1.set_account(account_player_1);
-            }
 
                 /// VESSEL_UNITE
 
@@ -362,9 +326,6 @@ int main()
         } // FIN BACKGROUND VESSEL
 
         /// BACKGROUND UNITE
-
-
-
         for (int i=0;i<vect_unite.size();i++)
         {
 
@@ -416,15 +377,28 @@ int main()
         }
 
 
-        if (vessel_select)
+            if (vessel_select)
+            {
+                sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+                bat[indice_bat-1]->set_position(Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)));
+                window.draw(bat[indice_bat-1]->afficher());
+            }
+
+
+        } // FIN IF JEU
+///----------------------------------------------------------------------------------- FIN JEU
+///---------------------------------------------------------------------------------------------- MENU
+        if (statut == 0)
         {
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-            bat[indice_bat-1]->set_position(Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)));
-            window.draw(bat[indice_bat-1]->afficher());
+        window.clear(sf::Color::Black);
+        // DRAW SPRITE START
+        window.draw(sprite_start_button);
         }
+///---------------------------------------------------------------------------------------------- FIN MENU
 
 
-        window.display();
+
+            window.display();
 
     } /// END WINDOWS IS OPEN
 
