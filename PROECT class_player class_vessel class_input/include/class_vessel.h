@@ -13,6 +13,7 @@ using namespace sf;
 
 class vessel {
 protected :
+    int num_player;
     int PV;
     int lvl;
     int prix;
@@ -36,6 +37,7 @@ public :
     int get_lvl();
 
     int get_type();
+    int get_player(){return num_player;}
 
 
     sf::Vector2f get_position();
@@ -56,7 +58,7 @@ public :
     virtual void reset_clockspawn(){}
     virtual int get_nbunite(){return 0;}
     virtual void set_nbunite(int){}
-    virtual int get_player(){return 1;}
+
 
 
     // batiment ressources
