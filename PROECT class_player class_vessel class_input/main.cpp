@@ -95,6 +95,20 @@ int main()
     RectangleShape followingSquare(size_vessel);
     followingSquare.setFillColor(sf::Color::Red);
 
+            /// BANQUE
+
+    sf::Text text_banque;
+    sf::Font font;
+    if (!font.loadFromFile("arial.ttf"))
+    {
+        // error...
+        return 1;
+    }
+    text_banque.setFont(font);
+    text_banque.setCharacterSize(30);
+    text_banque.setFillColor(sf::Color::White);
+    text_banque.setPosition(400.0f, 10.0f);
+
                 /// FIN INITIALISATION MAP
 
 
@@ -302,6 +316,7 @@ int main()
                 }
 
                 player_1.set_account(account_player_1);
+                text_banque.setString(std::to_string(account_player_1));
             }
 
                 /// VESSEL_UNITE
@@ -424,6 +439,7 @@ int main()
         }
 
 
+        window.draw(text_banque);
         window.display();
 
     } /// END WINDOWS IS OPEN
