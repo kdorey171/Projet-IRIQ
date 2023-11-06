@@ -222,44 +222,81 @@ int main()
 
                 else if (vessel_select)
                 {
+                    std::vector<sf::FloatRect> shapeBounds;
+
                     FloatRect rect_vessel = bat[indice_bat-1]->afficher().getGlobalBounds();
-                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+
+                    for (vessel* bats : bat) {
+                        if (bats != bat[indice_bat - 1]) {
+                            shapeBounds.push_back(bats->afficher().getGlobalBounds());
+                        }
+                    }
+
+                    bool intersectsWithShapeBounds = false;
+                    for (const sf::FloatRect& shapeBound : shapeBounds) {
+                        if (rect_vessel.intersects(shapeBound)) {
+                            intersectsWithShapeBounds = true;
+                            break;
+                        }
+                    }
+
+                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
+                        float true_position_y=bloc_ligne_fight_1.getPosition().y-10;
+                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
+
+
+
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
+                        float true_position_y=bloc_ligne_fight_2.getPosition().y-10;
+                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
+
                         #ifdef __DEBUG
                         cout << bat[indice_bat-1]->get_position().x << " " << true_position_y << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
+                        float true_position_y=bloc_ligne_fight_3.getPosition().y-10;
+                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
+
+
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
+                        float true_position_y=bloc_ligne_fight_4.getPosition().y-10;
+                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
+
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
-                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()))
+                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
                     {
                         vessel_select = false;
+                        float true_position_y=bloc_ligne_fight_5.getPosition().y-10;
+                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
+
                         #ifdef __DEBUG
                         cout << "bien placé !" << endl;
                         #endif // __DEBUG
                     }
                 }
             }
+
+
             if (touche.left == false)
             {
 
