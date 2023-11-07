@@ -7,6 +7,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
+
 
 #include "class_input.h"
 #include "class_vessel.h"
@@ -22,10 +24,9 @@ int main()
 {
     cout << "start" << endl;
     RenderWindow window(VideoMode(1000, 500), "Tower Defense");
+    window.setFramerateLimit(60);
 
-    // Menu
-
-    /// start_button
+    /// start_button - TEXTURAGE
 
     Texture start_button_texture;
     if (!start_button_texture.loadFromFile("start.png")) // Découpage : sf::IntRect(0,0,348,150), pb use this function
@@ -40,6 +41,28 @@ int main()
     Sprite sprite_start_button;
     sprite_start_button.setTexture(start_button_texture);
     sprite_start_button.setPosition(Vector2f(start_xpos-start_xsize/2,start_ypos-start_ysize/2)); // position de sprite_start_button
+
+
+
+    /// AUDIO FILES
+
+    // MUSIC MENU
+    sf::Music main_theme;
+    if (!main_theme.openFromFile("audio/super_meat_boy.ogg"))
+    {
+        cout << "no audio named super_meat_boy.ogg" << endl;
+    }
+
+    main_theme.setVolume(50);
+    main_theme.play();
+
+
+
+
+
+
+
+
 
     /// Initialisation des comptes des players.
     player player_1(1);
@@ -174,15 +197,36 @@ int main()
 
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
-            if (abs(mousePosition.x - start_xpos) < start_xsize/2 && abs(mousePosition.y - start_ypos) < start_ysize/2 && touche.left == true)
-            {
-                statut = 1; // JEU
-                cout << "click validé" << endl;
-            }
-            else if (touche.echap == true) statut = 0; // MENU
 
-            if (statut == 1) {
-///----------------------------------------------------------------------------------- JEU
+
+///----------------------------------------------------------------------------------- MENU POLL EVENT
+            if (statut == 0)
+            {
+                // annuler pause
+                main_theme.pause(); // securite premier lancement (important)
+                main_theme.play();
+
+                if (touche.down == true) main_theme.setVolume(main_theme.getVolume() - 10);
+                if (touche.up == true) main_theme.setVolume(main_theme.getVolume() + 10);
+
+
+                /// BASCULEMENT JEU
+                if (abs(mousePosition.x - start_xpos) < start_xsize/2 && abs(mousePosition.y - start_ypos) < start_ysize/2 && touche.left == true)
+                {
+                statut = 1; // JEU
+                }
+
+            }
+
+
+
+///----------------------------------------------------------------------------------- JEU POLL EVENT
+        if (statut == 1) {
+            // Gestion Audio
+            main_theme.pause();
+
+
+
             if (touche.left == true)
             {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -316,13 +360,19 @@ int main()
             {
 
             }
-///----------------------------------------------------------------------------------- FIN JEU
+
+                    /// BASCULEMENT MENU
+            if (touche.echap == true) statut = 0; // MENU
+
+
         } // FIN statut == 1
+///----------------------------------------------------------------------------------- FIN JEU POLL EVENT
+
 
 
         } /// FIN POLL EVENT
 
-///----------------------------------------------------------------------------------- JEU
+///----------------------------------------------------------------------------------- JEU HORS POLL EVENT
 
         if (statut == 1) {
 
@@ -495,19 +545,20 @@ int main()
                 window.draw(bat[indice_bat-1]->afficher());
              }
 
+        window.draw(text_banque);
+
         } // FIN IF JEU
 
-///----------------------------------------------------------------------------------- FIN JEU
-///---------------------------------------------------------------------------------------------- MENU
+///----------------------------------------------------------------------------------- FIN JEU HORS POLL EVENT
+///---------------------------------------------------------------------------------------------- MENU HORS POLL EVENT
         if (statut == 0)
         {
         window.clear(sf::Color::Black);
-        // DRAW SPRITE START
         window.draw(sprite_start_button);
         }
-///---------------------------------------------------------------------------------------------- FIN MENU
+///---------------------------------------------------------------------------------------------- FIN MENU HORS POLL EVENT
 
-        window.draw(text_banque);
+
         window.display();
 
 

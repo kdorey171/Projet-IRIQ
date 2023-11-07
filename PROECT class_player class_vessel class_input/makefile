@@ -3,7 +3,8 @@ all :
 	rm *.o 2>/dev/null || echo "rien a clean"
 
 project : main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o
-	g++ main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o -I"include" -o project -Wfatal-errors -lsfml-graphics -lsfml-window -lsfml-system
+	g++ main.cpp class_vessel.o class_vessel_ressource.o class_vessel_unite.o class_unite.o class_input.o player.o -I"include" -o project -Wfatal-errors -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lpthread
+
 
 class_vessel.o : source/class_vessel.cpp include/class_vessel.h
 	g++ -c source/class_vessel.cpp -I"include" -Wfatal-errors

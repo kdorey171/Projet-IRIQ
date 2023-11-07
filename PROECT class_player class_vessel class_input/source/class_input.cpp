@@ -8,6 +8,7 @@ using namespace std;
 Input::Input()
 {
      button.left=button.right=button.echap=false;
+     button.down=button.up=false;
 }
 
 Input::Button Input::GetButton(void) const // return private
@@ -81,4 +82,54 @@ void Input::InputHandler(Event event, RenderWindow& window)
             break;
         }
     }
+
+
+     /// MUSIC BUTTONs
+
+    // down or up Pressed
+
+    if (event.type == Event::KeyPressed)
+    {
+        switch (event.key.code)
+        {
+        case Keyboard::Down:
+            button.down = true;
+            #ifdef __DEBUG
+            cout << "click droit" << endl;
+            #endif // __DEBUG
+            break;
+        case Keyboard::Up:
+            button.up = true;
+            #ifdef __DEBUG
+            cout << "click gauche" << endl;
+            #endif // __DEBUG
+            break;
+        default :
+            break;
+        }
+    }
+
+    // down or up Released
+
+    if (event.type == Event::KeyReleased)
+    {
+        switch (event.key.code)
+        {
+        case Keyboard::Down:
+            button.down = false;
+            #ifdef __DEBUG
+            cout << "click droit" << endl;
+            #endif // __DEBUG
+            break;
+        case Keyboard::Up:
+            button.up = false;
+            #ifdef __DEBUG
+            cout << "click gauche" << endl;
+            #endif // __DEBUG
+            break;
+        default :
+            break;
+        }
+    }
+
 }
