@@ -434,6 +434,20 @@ int main()
                     clock_init.restart();
                 }
 
+
+
+                /// test de mettre une seule unité en combat ///
+
+
+                /*
+                if (indice_unit>1)
+                {
+                    bats->set_spawn(false);
+                }
+                */
+
+
+
                 // Create Unite
                 if (bats->get_spawn_possible())
                 {
@@ -496,6 +510,32 @@ int main()
                 unit.set_spawn_unit(true);
             }
 
+
+            std::vector<sf::FloatRect> unites_bounds;
+
+            CircleShape pos_unit = unit.afficher();
+            pos_unit.setPosition(unit.get_position().x+unit.get_vitesse(),unit.get_position().y);
+            FloatRect rect_unit = pos_unit.getGlobalBounds();
+
+
+            for (int j=0;j<vect_unite.size();j++ ) {
+
+                if (j!=i && vect_unite[j].get_player() != unit.get_player()) {
+
+                    unites_bounds.push_back(vect_unite[j].afficher().getGlobalBounds());
+
+                }
+            }
+
+
+            bool intersectsWithunitesBounds = false;
+            for (const sf::FloatRect& shapeBound : unites_bounds) {
+                if (rect_unit.intersects(shapeBound)) {
+                    intersectsWithunitesBounds = true;
+                    break;
+                }
+            }
+
             //Deplacement
             if (unit.get_spawn_unit() && unit.get_clockdispawn()>=0.5)
             {
@@ -503,9 +543,12 @@ int main()
                 #ifdef __DEBUG
                 cout << "unite" << unit.get_position().x << " / " << unit.get_position().y << endl;
                 #endif // __DEBUG
+                if (!intersectsWithunitesBounds)
+                {
+                    unit.deplacement();
+                    unit.loose_PV(5);
+                }
 
-                unit.deplacement();
-                unit.loose_PV(10);
                 unit.reset_clockdispawn();
 
             }
@@ -517,11 +560,7 @@ int main()
                 cout << "destuction" << endl;
                 #endif // __DEBUG
 
-
-                //Unites& unit_transfer=vect_unite.back();
-
                 unit=vect_unite.back();
-                //unit=unit_transfer;
                 vect_unite.pop_back();
 
             }
