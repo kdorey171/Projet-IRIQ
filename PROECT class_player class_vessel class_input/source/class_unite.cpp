@@ -14,6 +14,7 @@ Unites::Unites(Vector2f newposition, Color color, int player)
     PV=200;
     vitesse = 10.f * num_player;
     Butin=100;
+    range = 10.f;
     spawn_unit=false;
     position.setRadius(5.f);
     position.setPosition(newposition);
@@ -51,6 +52,13 @@ void Unites::loose_PV(int a){
     PV-=a;
 }
 
+int Unites::get_attaque(){
+    return attaque;
+}
+
+int Unites::get_range(){
+    return range;
+}
 
 bool Unites::get_spawn_unit(){
     return spawn_unit;

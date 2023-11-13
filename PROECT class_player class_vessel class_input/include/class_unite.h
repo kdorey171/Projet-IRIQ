@@ -22,6 +22,7 @@ protected :
     int PV;
     float vitesse;
     int Butin;  // C'est la quantité de ressources apportée au joueur adverse quand il tue une unité
+    int range; //portée de détection des enemis
     CircleShape position;
 
 public :
@@ -42,6 +43,10 @@ public :
 
     int get_PV();
     void loose_PV(int);
+
+    int get_attaque();
+
+    int get_range();
 
     bool get_spawn_unit();
     void set_spawn_unit(bool);

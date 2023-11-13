@@ -29,6 +29,8 @@ public :
     // Desturctor
     virtual ~vessel();
 
+    vessel& operator=(const vessel&);
+
     //methods
     void set_PV(int pv);
     int get_PV();
@@ -38,6 +40,8 @@ public :
 
     int get_type();
     int get_player(){return num_player;}
+
+    int get_prix();
 
 
     sf::Vector2f get_position();

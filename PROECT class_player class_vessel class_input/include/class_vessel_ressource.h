@@ -29,6 +29,8 @@ public :
     //destructeur
     ~vessel_ressource();
 
+    vessel_ressource& operator=(const vessel_ressource&);
+
     //methodes
     void set_gain(int);
     int get_gain();

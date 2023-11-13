@@ -27,6 +27,8 @@ public:
     //destructeur
     ~vessel_unite();
 
+    vessel_unite& operator=(const vessel_unite&);
+
     //methode
     int get_nbunite();
     void set_nbunite(int);

@@ -13,7 +13,7 @@ void player::set_account(int prix)
 
 int player::get_account()
 {
-    return(cash);
+    return cash;
 };
 
 int player::get_player()

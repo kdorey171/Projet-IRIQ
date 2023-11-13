@@ -14,8 +14,11 @@ cerr << "Constructeur Bâtiment unite" << endl;
     spawn_possible = false;
     PV = 1000;
     type = 1;
-    prix = 20;
+    prix = 200;
     nb_unite=0;
+    position_vessel.setFillColor(sf::Color::Blue);
+    position_vessel.setSize(Vector2f(25.f,25.f));
+    position_vessel.setPosition(Vector2f(80.f,10.f));
 }
 
 /// Destructeur
@@ -27,6 +30,17 @@ cerr << "Destruction du Bâtiment ressource (vessel_ressource)" << endl;
 #endif // __DEBUG
 }
 
+vessel_unite& vessel_unite::operator=(const vessel_unite &vu){
+if (&vu == this)
+    return *this;
+
+vessel::operator=(vu);
+nb_unite = vu.nb_unite;
+spawn_possible = vu.spawn_possible;
+circleSpawnClock = vu.circleSpawnClock;
+cerr << "operator=() de Vessel_unites" << endl;
+return *this;
+}
 
 /// METHODS
 

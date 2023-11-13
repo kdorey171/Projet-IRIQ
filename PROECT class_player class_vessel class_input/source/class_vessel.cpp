@@ -12,9 +12,7 @@ vessel::vessel()
 #ifdef __DEBUG
 cerr << "Constructeur par défaut du Bâtiment (vessel)" << endl;
 #endif // __DEBUG
-    PV = 1000;
     lvl = 1;
-    prix = 10;
     position_vessel = RectangleShape(Vector2f(0.f,0.f));
 }
 
@@ -25,6 +23,22 @@ vessel::~vessel()
 cerr << "Destruction du Bâtiment (vessel)" << endl;
 #endif // __DEBUG
 }
+
+
+vessel& vessel::operator=(const vessel &v){
+if (&v == this)
+    return *this;
+
+num_player = v.num_player;
+PV = v.PV;
+lvl = v.lvl;
+prix = v.prix;
+type = v.type;
+position_vessel = v.position_vessel;
+return *this;
+}
+
+
 
 // AFFICHEURS
 
@@ -91,6 +105,10 @@ Color vessel::get_color()
     return position_vessel.getFillColor();
 }
 
+int vessel::get_prix()
+{
+    return prix;
+}
 
 
 //-------------------------------------------------------------------------

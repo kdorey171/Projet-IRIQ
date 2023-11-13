@@ -4,7 +4,7 @@
 
 using namespace std;
 using namespace sf;
-
+#define __DEBUG
 
 vessel_ressource::vessel_ressource()
 {
@@ -13,7 +13,7 @@ cerr << "Constructeur par défaut du Bâtiment Ressource (vessel_ressource)" << 
 #endif // __DEBUG
     PV = 1000;
     type = 0;
-    prix = 10;
+    prix = 100;
     gain = 10;
     gain_time = 1;
     position_vessel.setFillColor(sf::Color::Green);
@@ -26,6 +26,20 @@ vessel_ressource::~vessel_ressource()
 #ifdef __DEBUG
 cerr << "Destruction du Bâtiment ressource (vessel_ressource)" << endl;
 #endif // __DEBUG
+}
+
+vessel_ressource& vessel_ressource::operator=(const vessel_ressource &vr){
+if (&vr == this)
+    return *this;
+
+vessel::operator=(vr);
+gain = vr.gain;
+gain_time = vr.gain_time;
+ressourceGainClock = vr.ressourceGainClock;
+#ifdef __DEBUG
+cerr << "operator=() de Vessel_ressources" << endl;
+#endif
+return *this;
 }
 
 

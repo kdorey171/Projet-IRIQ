@@ -64,7 +64,7 @@ int main()
 
 
 
-    /// Initialisation des comptes des players.
+    // Initialisation des comptes des players.
     player player_1(1);
     int account_player_1 = player_1.get_account();
     player player_IA(-1);
@@ -86,40 +86,36 @@ int main()
     RectangleShape bloc_base_player(size_base);
     RectangleShape bloc_base_AI(size_base);
 
-    // CHAMP DE BATAILLE
-    RectangleShape bloc_ligne_fight_1(size_ligne_fight);
-    RectangleShape bloc_ligne_fight_2(size_ligne_fight);
-    RectangleShape bloc_ligne_fight_3(size_ligne_fight);
-    RectangleShape bloc_ligne_fight_4(size_ligne_fight);
-    RectangleShape bloc_ligne_fight_5(size_ligne_fight);
+    // LIGNES DE BATAILLE
+	std::vector<RectangleShape> ligne_fight;
+
+	for(int i=0;i<5;i++){
+        RectangleShape block_ligne(size_ligne_fight);
+        block_ligne.setPosition(Vector2f(0.f,120.f+i*80.f));
+        block_ligne.setFillColor(sf::Color::Red);
+		ligne_fight.push_back(block_ligne);
+	}
 
     // MISE EN FORME
     bloc_base_player.setPosition(Vector2f(0.f,50.f));
     bloc_base_AI.setPosition(Vector2f(700.f,50.f));
-    bloc_ligne_fight_1.setPosition(Vector2f(0.f,120.f));
-    bloc_ligne_fight_2.setPosition(Vector2f(0.f,200.f));
-    bloc_ligne_fight_3.setPosition(Vector2f(0.f,280.f));
-    bloc_ligne_fight_4.setPosition(Vector2f(0.f,360.f));
-    bloc_ligne_fight_5.setPosition(Vector2f(0.f,440.f));
 
     bloc_base_player.setFillColor(sf::Color::White);
-    bloc_ligne_fight_1.setFillColor(sf::Color::Red);
-    bloc_ligne_fight_2.setFillColor(sf::Color::Red);
-    bloc_ligne_fight_3.setFillColor(sf::Color::Red);
-    bloc_ligne_fight_4.setFillColor(sf::Color::Red);
-    bloc_ligne_fight_5.setFillColor(sf::Color::Red);
+
+
+
 
 
             /// CARTES à JOUER
 
-    // Tableau des carrées
+    // Tableau des batiments
     std::vector<vessel*> bat;
     vector<Unites> vect_unite;
 
-    // Tableau des carrées initiaux
+    // Tableau des batiments en haut à gauche
     std::vector<RectangleShape> initsquares;
 
-    // Initilisation des carrées
+    // Initilisation de ces batiements
     RectangleShape redSquare(size_vessel);
     redSquare.setFillColor(Color::Red);
     redSquare.setPosition(20, 10);
@@ -141,7 +137,7 @@ int main()
 
 
 
-    /// Création des premier batiments
+    /// Création des premier batiments de départ
 
 
     vessel* vessel_player_1 = new vessel_unite(player_1.get_player());
@@ -157,7 +153,7 @@ int main()
     bat.push_back(vessel_player_IA);
 
 
-            /// BANQUE
+            /// AFFICHAGE BANQUE
 
     sf::Text text_banque;
     sf::Font font;
@@ -170,6 +166,8 @@ int main()
     text_banque.setCharacterSize(30);
     text_banque.setFillColor(sf::Color::White);
     text_banque.setPosition(400.0f, 10.0f);
+    text_banque.setString(std::to_string(account_player_1));
+
 
                 /// FIN INITIALISATION MAP
 
@@ -178,9 +176,11 @@ int main()
     Input input; // Initialisation Touches
 
 
+    //Variables de manipulation d'entitées
     bool vessel_select = false;
-    int indice_bat = 2;
+    int indice_bat = bat.size();
     int indice_unit = 0;
+    vessel* bat_a_poser;
 
 
     int statut = 0; // 0 pour menu & 1 pour jeu
@@ -229,24 +229,25 @@ int main()
 
             if (touche.left == true)
             {
+
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
                 sf::FloatRect redSquareBounds = redSquare.getGlobalBounds();
                 sf::FloatRect blueSquareBounds = blueSquare.getGlobalBounds();
                 sf::FloatRect greenSquareBounds = greenSquare.getGlobalBounds();
 
-
                 if (!vessel_select)
                 {
+				//Creation des batiments après séléctions dans le coin supérieur gauche de l'écran
+
                     if (redSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
                     {
                         if (vessel_select == false) {vessel_select=true;}
 
-                        vessel* newbat = new vessel;
-                        newbat->set_size(size_vessel);
-                        newbat->set_color(sf::Color::Red);
-                        newbat->set_position(size_vessel);
-                        bat.push_back(newbat);
-                        indice_bat += 1;
+                        vessel* new_bat = new vessel;
+                        new_bat->set_size(size_vessel);
+                        new_bat->set_color(sf::Color::Red);
+                        new_bat->set_position(Vector2f(20.f, 20.f));
+                        bat_a_poser = new_bat;
 
 
                     }
@@ -255,38 +256,36 @@ int main()
                     {
                         if (vessel_select == false) {vessel_select=true;}
 
-                        vessel* newbat = new vessel_unite(player_1.get_player());
-                        newbat->set_size(size_vessel);
-                        newbat->set_color(sf::Color::Blue);
-                        newbat->set_position(Vector2f(80.f, 20.f));
+                        vessel* new_bat = new vessel_unite(player_1.get_player());
+                        bat_a_poser = new_bat;
 
                         //cout << "bat du player " << newbat->get_player() << endl;
 
-                        bat.push_back(newbat);
-                        indice_bat += 1;
+
                     }
 
                     else if (greenSquareBounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
                     {
                         if (vessel_select == false) {vessel_select=true;}
 
-                        vessel* newbat = new vessel_ressource;
-                        newbat->set_size(size_vessel);
-                        newbat->set_color(sf::Color::Green);
-                        newbat->set_position(Vector2f(140.f, 20.f));
-                        bat.push_back(newbat);
-                        indice_bat += 1;
+                        vessel* new_bat = new vessel_ressource;
+                        bat_a_poser = new_bat;
+
                     }
                 }
 
                 else if (vessel_select)
                 {
+				//Empêche de placer des batiments les uns au dessus des autres
+
+
                     std::vector<sf::FloatRect> shapeBounds;
 
-                    FloatRect rect_vessel = bat[indice_bat-1]->afficher().getGlobalBounds();
+                    FloatRect rect_vessel = bat_a_poser->afficher().getGlobalBounds();
 
+                    ///pas optimisé car on recalcule les bounds de tous les batiments à chauqe fois alors qu'il suffirait de récuperer le vecteur précédent et d'y ajouter les bounds du dernier batiment créé
                     for (vessel* bats : bat) {
-                        if (bats != bat[indice_bat - 1]) {
+                        if (bats != bat_a_poser) {
                             shapeBounds.push_back(bats->afficher().getGlobalBounds());
                         }
                     }
@@ -299,58 +298,28 @@ int main()
                         }
                     }
 
-                    if (rect_vessel.intersects(bloc_ligne_fight_1.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
-                    {
-                        vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_1.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
+					//Permet de poser les batiments sur les lignes prédéfinies
+					for(int i=0;i<ligne_fight.size();i++){
+                        if (rect_vessel.intersects(ligne_fight[i].getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds && account_player_1>=bat_a_poser->get_prix())
+                        {
+                            vessel_select = false;
+                            bat.push_back(bat_a_poser);
+                            indice_bat += 1;
+                            float true_position_y=ligne_fight[i].getPosition().y-10;
+                            bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
 
-
-
-                        #ifdef __DEBUG
-                        cout << "bien placé !" << endl;
-                        #endif // __DEBUG
-                    }
-                    if (rect_vessel.intersects(bloc_ligne_fight_2.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
-                    {
-                        vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_2.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
-                        #ifdef __DEBUG
-                        cout << bat[indice_bat-1]->get_position().x << " " << true_position_y << endl;
-                        #endif // __DEBUG
-                    }
-                    if (rect_vessel.intersects(bloc_ligne_fight_3.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
-                    {
-                        vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_3.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
-
-                        #ifdef __DEBUG
-                        cout << "bien placé !" << endl;
-                        #endif // __DEBUG
-                    }
-                    if (rect_vessel.intersects(bloc_ligne_fight_4.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
-                    {
-                        vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_4.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
-                        #ifdef __DEBUG
-                        cout << "bien placé !" << endl;
-                        #endif // __DEBUG
-                    }
-                    if (rect_vessel.intersects(bloc_ligne_fight_5.getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds)
-                    {
-                        vessel_select = false;
-                        float true_position_y=bloc_ligne_fight_5.getPosition().y-10;
-                        bat[indice_bat-1]->set_position(Vector2f(bat[indice_bat-1]->get_position().x,true_position_y));
-
-                        #ifdef __DEBUG
-                        cout << "bien placé !" << endl;
-                        #endif // __DEBUG
+                            account_player_1 -= bat[indice_bat-1]->get_prix();
+                            player_1.set_account(account_player_1);
+                            text_banque.setString(std::to_string(account_player_1));
+                            #ifdef __DEBUG
+                            cout << "bien placé !" << endl;
+                            #endif // __DEBUG
+                        }
+                        /// Si pas assez d'argent, mais clic quand même, le batiment ne se pose pas et le joueur perd la selection
+                        else if (rect_vessel.intersects(ligne_fight[i].getGlobalBounds()) && rect_vessel.intersects(bloc_base_player.getGlobalBounds()) && !intersectsWithShapeBounds && account_player_1<bat_a_poser->get_prix())
+                        {
+                            vessel_select = false;
+                        }
                     }
                 }
             }
@@ -361,8 +330,9 @@ int main()
 
             }
 
+
                     /// BASCULEMENT MENU
-            if (touche.echap == true) statut = 0; // MENU
+            if (touche.echap == true && vessel_select == false) statut = 0; // MENU
 
 
         } // FIN statut == 1
@@ -381,13 +351,13 @@ int main()
         window.draw(bloc_base_player);
         window.draw(bloc_base_AI);
 
+
         if (vessel_select)
         {
-            window.draw(bloc_ligne_fight_1);
-            window.draw(bloc_ligne_fight_2);
-            window.draw(bloc_ligne_fight_3);
-            window.draw(bloc_ligne_fight_4);
-            window.draw(bloc_ligne_fight_5);
+            for(int i=0;i<ligne_fight.size();i++)
+            {
+                window.draw(ligne_fight[i]);
+            }
         }
 
         /// BACKGROUND VESSEL
@@ -440,7 +410,7 @@ int main()
 
 
                 /*
-                if (indice_unit>1)
+                if (indice_unit>3)
                 {
                     bats->set_spawn(false);
                 }
@@ -498,7 +468,6 @@ int main()
 
 
         /// BACKGROUND UNITE
-
         for (int i=0;i<vect_unite.size();i++)
         {
 
@@ -570,8 +539,6 @@ int main()
         } // FIN BACKGROUND UNITE
 
 
-
-
         for (size_t i = 0; i < initsquares.size(); i++) {
             window.draw(initsquares[i]);
         }
@@ -580,8 +547,8 @@ int main()
             if (vessel_select)
             {
                 sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-                bat[indice_bat-1]->set_position(Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)));
-                window.draw(bat[indice_bat-1]->afficher());
+                bat_a_poser->set_position(Vector2f(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)));
+                window.draw(bat_a_poser->afficher());
              }
 
         window.draw(text_banque);
