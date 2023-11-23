@@ -29,7 +29,7 @@ public :
 
 //void attaque_recu(); /// A modifier type de sortie !!
 
-    Unites(Vector2f,Color,int);
+    Unites(Vector2f,Color,int nb_playeur,int lvl);
     ~Unites();
 
     CircleShape afficher();

@@ -118,6 +118,18 @@ bool vessel::allow_build(player Player) // player_1 or player_2
     return(prix <= Player.get_account());
 }
 
+
+void vessel::upgrade()
+{
+    lvl=lvl+1;
+    PV = PV * 2;
+
+}
+
+
+
+
+
 /*
 void vessel::build(Player)
 {

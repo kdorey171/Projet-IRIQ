@@ -52,6 +52,7 @@ public :
 
     bool allow_build(player);
 
+    void upgrade();
 
     /// fonction classe fille en virtual
 
@@ -71,11 +72,6 @@ public :
     virtual void set_gain_time(int){}
     virtual int get_gain_time(){return 0;}
 
-
-    /*
-    build(); // construire un bâtiment, class bank allow?
-    create_unit() // class unit
-    */
 
 
 

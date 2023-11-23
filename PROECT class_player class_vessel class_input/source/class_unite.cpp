@@ -7,11 +7,9 @@ using namespace sf;
 
 ////// Dev class_unités //////
 
-Unites::Unites(Vector2f newposition, Color color, int player)
+Unites::Unites(Vector2f newposition, Color color, int player, int lvl)
 {
     num_player=player;
-    attaque=50;
-    PV=200;
     vitesse = 10.f * num_player;
     Butin=100;
     range = 10.f;
@@ -19,6 +17,20 @@ Unites::Unites(Vector2f newposition, Color color, int player)
     position.setRadius(5.f);
     position.setPosition(newposition);
     position.setFillColor(color);
+
+    switch lvl:
+    case 1:
+        attaque=50;
+        PV=200;
+
+    case 2:
+        attaque=50*2;
+        PV=200*2;
+
+    case 3:
+        attaque=50*3;
+        PV=200*3;
+
 }
 
 Unites::~Unites()

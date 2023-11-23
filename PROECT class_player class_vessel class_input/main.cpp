@@ -235,6 +235,10 @@ int main()
                 sf::FloatRect blueSquareBounds = blueSquare.getGlobalBounds();
                 sf::FloatRect greenSquareBounds = greenSquare.getGlobalBounds();
 
+
+
+
+
                 if (!vessel_select)
                 {
 				//Creation des batiments après séléctions dans le coin supérieur gauche de l'écran
@@ -409,20 +413,25 @@ int main()
                 /// test de mettre une seule unité en combat ///
 
 
-                /*
-                if (indice_unit>3)
+
+                if (indice_unit>5)
                 {
                     bats->set_spawn(false);
                 }
-                */
 
 
 
                 // Create Unite
                 if (bats->get_spawn_possible())
                 {
+
                     if (bats->get_clockspawn() >= 1)
                     {
+
+                        if (bats->get_lvl()<3)
+                        {
+                            bats->set_lvl(bats->get_lvl()+1);
+                        }
 
                         bats->reset_clockspawn();
                         Vector2f newposition_unite=bats->get_position();
@@ -534,6 +543,7 @@ int main()
 
             }
 
+            cout << unit.get_attaque() << " / " << unit.get_PV() << endl;
             window.draw(unit.afficher());
 
         } // FIN BACKGROUND UNITE
