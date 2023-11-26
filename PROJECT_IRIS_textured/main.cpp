@@ -197,7 +197,7 @@ int main()
 
     // Tableau des batiments
     std::vector<vessel*> bat;
-    vector<Unites> vect_unite;
+    std::vector<Unites*> vect_unite;
     vector<FloatRect> VesselBounds;
 
     vessel* vessel_player_1 = new vessel_unite(player_1.get_player());
@@ -261,7 +261,7 @@ int main()
     }
     text_banque.setFont(font);
     text_banque.setCharacterSize(30);
-    text_banque.setFillColor(sf::Color::White);
+    text_banque.setFillColor(sf::Color::Black);
     text_banque.setPosition(400.0f, 10.0f);
     text_banque.setString(std::to_string(account_player_1));
 
@@ -589,7 +589,7 @@ int main()
                             newposition_unite.y+= 5;
                         }
 
-                        Unites newunite(newposition_unite,bats->get_color(),bats->get_player(),bats->get_lvl());
+                        Unites* newunite = new Unites(newposition_unite,bats->get_color(),bats->get_player(),1);
 
                         #ifdef __DEBUG
                         cout << "unite du player " << newunite.get_player() << endl;
@@ -637,30 +637,32 @@ int main()
 
 
         /// BACKGROUND UNITE
-        for (int i=0;i<vect_unite.size();i++)
+        int id_unit = -1;
+        for (Unites* unit : vect_unite)
         {
 
-            Unites& unit = vect_unite[i];
+            id_unit += 1;
+
             // Initialisation
-            if(!unit.get_spawn_unit())
+            if(!unit->get_spawn_unit())
             {
-                unit.reset_clockdispawn();
-                unit.set_spawn_unit(true);
+                unit->reset_clock();
+                unit->set_spawn_unit(true);
             }
 
 
             std::vector<sf::FloatRect> unites_bounds;
 
-            CircleShape pos_unit = unit.afficher();
-            pos_unit.setPosition(unit.get_position().x+unit.get_vitesse(),unit.get_position().y);
+            CircleShape pos_unit = unit->afficher();
+            pos_unit.setPosition(unit->get_position().x+unit->get_vitesse(),unit->get_position().y);
             FloatRect rect_unit = pos_unit.getGlobalBounds();
 
 
             for (int j=0;j<vect_unite.size();j++ ) {
 
-                if (j!=i && vect_unite[j].get_player() != unit.get_player()) {
+                if (j!=id_unit ) { //&& vect_unite[j]->get_player() != unit->get_player()
 
-                    unites_bounds.push_back(vect_unite[j].afficher().getGlobalBounds());
+                    unites_bounds.push_back(vect_unite[j]->afficher().getGlobalBounds());
 
                 }
             }
@@ -674,39 +676,73 @@ int main()
                 }
             }
 
-            //Deplacement
-            if (unit.get_spawn_unit() && unit.get_clockdispawn()>=0.5)
+
+            //récupère les unitées pas dans le même camp qu'elle et dans sa range d'attaque dans le vecteur suivant
+            std::vector<Unites*> unite_attaquable;
+
+            //Système de repérage d'ennemis, on trace un cercle qui correspond à la distance d'attaque de l'unité
+            sf::CircleShape AttaqueRange(unit->get_range());
+            sf::Color couleurtest(0,0,0,0);
+            AttaqueRange.setFillColor(couleurtest);
+            AttaqueRange.setPosition(unit->get_position().x - unit->get_range()/2 - unit->get_taille(),unit->get_position().y - unit->get_range()/2 - unit->get_taille());
+
+            // si un ennemi entre dans la range d'attaque il devient une cible potentielle
+            for (int j=0;j<vect_unite.size();j++ ) {
+
+                if (j!=id_unit && vect_unite[j]->get_player() != unit->get_player() && AttaqueRange.getGlobalBounds().intersects(vect_unite[j]->afficher().getGlobalBounds())) {
+
+                    unite_attaquable.push_back(vect_unite[j]);
+                    //cout << "Le vecteur a une size de : " << unite_attaquable.size() << "/" << vect_unite[j]->get_player() << endl;
+
+                }
+            }
+
+
+            if (!unite_attaquable.empty() && unit->get_clock()>=0.5)
             {
 
-                #ifdef __DEBUG
-                cout << "unite" << unit.get_position().x << " / " << unit.get_position().y << endl;
-                #endif // __DEBUG
+                unite_attaquable[0]->loose_PV(unit->get_attaque());
+
+            }
+
+            //Deplacement
+            if (unit->get_spawn_unit() && unit->get_clock()>=0.5)
+            {
+
                 if (!intersectsWithunitesBounds)
                 {
-                    unit.deplacement();
-                    unit.loose_PV(5);
+                    unit->deplacement();
+                    //unit->loose_PV(10);
                 }
 
-                unit.reset_clockdispawn();
+                unit->reset_clock();
 
             }
 
-            // Destruction
-            if (unit.get_spawn_unit() && unit.get_PV()<=0 )
-            {
-                #ifdef __DEBUG
-                cout << "destuction" << endl;
-                #endif // __DEBUG
+            // Destruction.in
 
-                unit=vect_unite.back();
-                vect_unite.pop_back();
-
-            }
-
-            window.draw(unit.afficher());
+            window.draw(unit->afficher());
+            window.draw(AttaqueRange);
 
         } // FIN BACKGROUND UNITE
 
+
+        /// DESTRUCTION DES UNITES A 0 PV
+        // Ayant 50 d'attaque, une fois que les unités sont dans les range l'une de l'autre elles se tuent en 4 tours
+        for (auto i = vect_unite.begin(); i != vect_unite.end(); ) {
+
+            Unites* unit = *i;
+            //cout << "L unite a PV : " << unit->get_PV() << endl;
+
+            if (unit->get_spawn_unit() && unit->get_PV() <= 0) {
+
+                i = vect_unite.erase(i);
+
+            }
+            else {
+                ++i;
+            }
+        }
 
         for (size_t i = 0; i < initsquares.size(); i++) {
             window.draw(initsquares[i]);

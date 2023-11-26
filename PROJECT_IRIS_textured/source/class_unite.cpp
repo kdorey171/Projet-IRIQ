@@ -7,14 +7,18 @@ using namespace sf;
 
 ////// Dev class_unités //////
 
-Unites::Unites(Vector2f newposition, Color color, int player, int lvl)
+Unites::Unites(sf::Vector2f newposition, sf::Color color, int player, int lvl)
 {
 
     num_player=player;
+    attaque=50;
+    PV=200;
+    vitesse = 10.f * num_player;
     Butin=100;
-    range = 10.f;
+    range = 10.f*2.f;
     spawn_unit=false;
-    position.setRadius(5.f);
+    taille = 5.f;
+    position.setRadius(taille);
     position.setPosition(newposition);
     position.setFillColor(color);
 
@@ -105,13 +109,17 @@ void Unites::deplacement()
 }
 
 
-void Unites::reset_clockdispawn()
+void Unites::reset_clock()
 {
-    circleDispawnClock.restart();
+    circleActionClock.restart();
 }
 
-float Unites::get_clockdispawn()
+float Unites::get_clock()
 {
-    return circleDispawnClock.getElapsedTime().asSeconds();
+    return circleActionClock.getElapsedTime().asSeconds();
 }
 
+int Unites::get_taille()
+{
+    return taille;
+}
